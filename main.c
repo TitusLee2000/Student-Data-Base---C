@@ -52,11 +52,12 @@ void displayStudent() {}
 
 // finds the student by ID
 // return: int the row the student is in the 2D array
-int findStudent(int id) {}
+int findStudent(int id) {
+  //not for marks but would make life easy
+}
 
 // Find a student by ID and display their group.
 void searchStudent(int id) {
-  //not for marks but would make life easy
 }
 
 // Remove a student record by ID.
