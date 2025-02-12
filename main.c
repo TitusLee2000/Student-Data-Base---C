@@ -25,7 +25,22 @@ Expected Outcome:
     - A console-based application that allows users to manage student records
     efficiently while categorizing them into two groups.
 */
+#include <ctype.h>
 #include <stdio.h>
+#include <string.h>
+
+// Takes a null-terminated string and replaces all uppercase letters with lowercase
+void lowerString(char* string) {
+    for (int i = 0; string[i] != '\0'; i++) {
+        if ('A' <= string[i] && string[i] <= 'Z') { string[i] = string[i] + 32;}
+    }
+}
+
+// Number of commands
+const static unsigned short NUM_COMMANDS = 6;
+
+// An array containing all valid commands
+const static char* COMMANDS[6] = {"add", "display", "search", "delete", "list", "exit"};
 
 //Allow users to enter a student's name, ID, age, program,
 //GPA, and group (Group BBY or Group DTC).
@@ -36,7 +51,7 @@ void addStudent(char* name, int id, int age, char* program,
 void displayStudent() {}
 
 // finds the student by ID
-// return: int row the row the student is in the 2D array
+// return: int the row the student is in the 2D array
 int findStudent(int id) {}
 
 // Find a student by ID and display their group.
@@ -50,7 +65,48 @@ void deleteStudent(int id) {}
 //Display all students in a specified group.
 void listByGroup() {}
 
+void runCommand(const int commandNum) {
+}
+
+void parseCommand(const char* command) {
+    for (int i = 0; i < NUM_COMMANDS; i++) {
+        if (strcmp(command, COMMANDS[i]) == 0) {
+            runCommand(i);
+            return;
+        }
+    }
+}
+
+char isValid(const char* command) {
+    for (int i = 0; i < NUM_COMMANDS; i++) {
+        if (strcmp(command, COMMANDS[i]) == 0) {
+            runCommand(i);
+            return 1;
+        }
+    }
+    printf("Invalid command \"%s\" \n", command);
+    return 0;
+}
+
+void promptCommand(char* shouldExit) {
+      char command[256] = "";
+
+      do {
+          printf("Please enter a valid command: ");
+          scanf("%s", command);
+          lowerString(command);
+      } while (!isValid(command));
+
+      if (strcmp(command, "exit") == 0 ) *shouldExit = 1;
+      else parseCommand(command);
+}
+
 int main(){
   void* studentDataBase [50][6];
+  char shouldExit = 0;
+  while (!shouldExit) {
+      promptCommand(&shouldExit);
+  }
+    printf("Exiting...");
   return 0;
 }
