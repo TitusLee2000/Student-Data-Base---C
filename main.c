@@ -40,7 +40,9 @@ void displayStudent() {}
 int findStudent(int id) {}
 
 // Find a student by ID and display their group.
-void searchStudent(int id) {}
+void searchStudent(int id) {
+  //not for marks but would make life easy
+}
 
 // Remove a student record by ID.
 void deleteStudent(int id) {}
