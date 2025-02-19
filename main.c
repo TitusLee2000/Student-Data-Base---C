@@ -30,8 +30,9 @@ Expected Outcome:
 #include <string.h>
 #include <stdlib.h>
 
-const int NUMBER_OF_STUDENTS = 50;
-void* STUDENT_DATABASE [NUMBER_OF_STUDENTS][6];
+#define MAX_SIZE 50
+
+void* STUDENT_DATABASE [MAX_SIZE][6];
 const int ID_INDEX      = 0;
 const int NAME_INDEX    = 1;
 const int AGE_INDEX     = 2;
@@ -102,7 +103,7 @@ int isString(const char* string) {
 //GPA, and group (Group BBY or Group DTC).
 void addStudent(int id, char name, int age, char program,
                 double gpa, char group) {
-    if (entries >= NUMBER_OF_STUDENTS) {
+    if (entries >= MAX_SIZE) {
       printf("Error: Database full!\n");
     }
     size_t row = entries++;
@@ -188,7 +189,7 @@ void addStudentPrompt() {
 //Show all stored student records, categorized by group.
 void displayStudent() {
     printf("  ID  | Name | Age | Program | GPA | Group\n");
-    for (int i = 0; i < NUMBER_OF_STUDENTS; i++) {
+    for (int i = 0; i < MAX_SIZE; i++) {
         printf("%s", STUDENT_DATABASE[i][ID_INDEX]);
         printf("%s", STUDENT_DATABASE[i][NAME_INDEX]);
         printf("%s", STUDENT_DATABASE[i][AGE_INDEX]);
