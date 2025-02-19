@@ -41,8 +41,10 @@ Expected Outcome:
 #define GPA_INDEX 4
 #define GROUP_INDEX 5
 
+// The database
 void* STUDENT_DATABASE [MAX_SIZE][6];
 
+// The number of students currently stored in the database
 size_t entries = 0;
 
 // Number of commands
