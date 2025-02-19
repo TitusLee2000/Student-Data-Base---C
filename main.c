@@ -73,13 +73,14 @@ void lowerString(char* string) {
 * @param: id an int
 * @return: int the row the student is in the 2D array, or -1 if the student was not found
 */
-int findStudent(int id) {
+int findStudent(const int id) {
     for (int i = 0; i < entries; i++) {
+        printf("%d",(*(int*) STUDENT_DATABASE[i][ID_INDEX] == id));
         if (*(int*) STUDENT_DATABASE[i][ID_INDEX] == id) {
             return i;
         }
     }
-    return -1;
+    return 0;
 }
 
 /**
@@ -101,7 +102,7 @@ int isInt(const char* string) {
 * see if it only contains characters
 *
 * @param: string a string
-* @return: 1 true if its a string else 0 false
+* @return: 1 true if it's a string else 0 false
 */
 int isString(const char* string) {
     for (int i = 0; string[i] != '\0'; i++) {
@@ -151,7 +152,7 @@ void addStudentPrompt() {
         return;
     }
     int idNum = atoi(id);
-    if (findStudent(idNum) != -1) {
+    if (findStudent(idNum)) {
         printf("ERROR: Student ID already exist\n");
         return;
     }
@@ -178,7 +179,7 @@ void addStudentPrompt() {
         return;
     }
 
-    printf("Gpa:");
+    printf("GPA:");
     scanf("%s", gpa);
     char* endptr;
     double gpaValue = strtod(gpa, &endptr);
@@ -187,7 +188,7 @@ void addStudentPrompt() {
         return;
     }
     if (gpaValue < 0 || gpaValue > 5) {
-        printf("ERROR: Gpa must be between 0 and 5 \n");
+        printf("ERROR: GPA must be between 0 and 5 \n");
         return;
     }
     gpaValue = (double)((int) gpaValue*100)/100;
@@ -221,11 +222,16 @@ void displayStudent() {
  * REQUIRED
  * Find a student by ID and display their group.
  */
-void searchStudent(int id) {
+void searchStudent(const int id) {
+    for (int i = 0; i < MAX_SIZE; i++) {
+        if (*(int*)STUDENT_DATABASE[i][ID_INDEX] == id) {
+            printf("The student with id %d is at group: %s", id, (char*)STUDENT_DATABASE[i][GROUP_INDEX]);
+        }
+    }
 }
 
-void shiftDatabase(size_t row) {
-    for (int i = row+1; i < entries; i++) {
+void shiftDatabase(const size_t row) {
+    for (int i = row + 1; i < entries; i++) {
         for (int j = 0; j < 6; j++) {
             STUDENT_DATABASE[i-1][j] = STUDENT_DATABASE[i][j];
         }
