@@ -230,6 +230,21 @@ void searchStudent(const int id) {
     }
 }
 
+/**
+ * Display the prompt and validates the input before displaying the student's group.
+ */
+void searchStudentPrompt() {
+    char id[100];
+    printf("To find a student's group please enter their ID");
+    scanf("%s", id);
+    if (!isInt(id)) {
+        printf("ERROR: That is a invalid ID\n");
+    } else {
+        int idNum = atoi(id);
+        searchStudent(idNum);
+    }
+}
+
 void shiftDatabase(const size_t row) {
     for (int i = row + 1; i < entries; i++) {
         for (int j = 0; j < 6; j++) {
