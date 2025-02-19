@@ -31,7 +31,7 @@ Expected Outcome:
 #include <stdlib.h>
 
 const int NUMBER_OF_STUDENTS = 50;
-const void* STUDENT_DATABASE [NUMBER_OF_STUDENTS][6];
+void* STUDENT_DATABASE [NUMBER_OF_STUDENTS][6];
 const int ID_INDEX      = 0;
 const int NAME_INDEX    = 1;
 const int AGE_INDEX     = 2;
@@ -54,12 +54,27 @@ void lowerString(char* string) {
 }
 
 /**
+* Finds the student by ID
+*
+* @param: id an int
+* @return: int the row the student is in the 2D array, or -1 if the student was not found
+*/
+int findStudent(int id) {
+    for (int i = 0; i < entries; i++) {
+        if (*(int*) STUDENT_DATABASE[i][ID_INDEX] == id) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+/**
 * see if it only contains numbers
 *
 * @param: string a string
-* @return: 1 true if its an integer else 0 false
+* @return: 1 true if it's an integer else 0 false
 */
-int isInt(char* string) {
+int isInt(const char* string) {
     for (int i = 0; string[i] != '\0'; i++) {
         if (!isdigit(string[i])){
             return 0;
@@ -74,7 +89,7 @@ int isInt(char* string) {
 * @param: string a string
 * @return: 1 true if its a string else 0 false
 */
-int isString(char* string) {
+int isString(const char* string) {
     for (int i = 0; string[i] != '\0'; i++) {
         if (!isalpha(string[i])) {
             return 0;
@@ -85,7 +100,7 @@ int isString(char* string) {
 
 //Allow users to enter a student's name, ID, age, program,
 //GPA, and group (Group BBY or Group DTC).
-void addStudent(int id, char* name, int age, char* program,
+void addStudent(int id, char name, int age, char program,
                 double gpa, char group) {
     if (entries >= NUMBER_OF_STUDENTS) {
       printf("Error: Database full!\n");
@@ -109,16 +124,21 @@ void addStudent(int id, char* name, int age, char* program,
 * GPA: float (0.00 - 5.00 only take in 2 decimal place)
 * Group: char array
 */
-void addStudentPrompt(int row) {
+void addStudentPrompt() {
     char id[100], name[100], age[10], program[40], gpa[10], group;
-    printf("To add a new student, please enter the following:\nStudent ID:");
+    printf("To add a new student, please enter the following:");
+
+    printf("Student ID:");
     scanf("%s", id);
-    // >>>>> CALL Find ID see if its unique <<<<
     if (!isInt(id)) {
         printf("That is a invalid ID");
         return;
     }
     int idNum = atoi(id);
+    if (findStudent(idNum)) {
+        printf("Student ID already exist");
+        return;
+    }
 
     printf("Name:");
     scanf("%s", name);
@@ -167,30 +187,15 @@ void addStudentPrompt(int row) {
 
 //Show all stored student records, categorized by group.
 void displayStudent() {
-  printf("  ID  | Name | Age | Program | GPA | Group\n");
-  for (int i = 0; i < NUMBER_OF_STUDENTS; i++) {
-    printf("%s", STUDENT_DATABASE[i][ID_INDEX]);
-    printf("%s", STUDENT_DATABASE[i][NAME_INDEX]);
-    printf("%s", STUDENT_DATABASE[i][AGE_INDEX]);
-    printf("%s", STUDENT_DATABASE[i][PROGRAM_INDEX]);
-    printf("%s", STUDENT_DATABASE[i][GPA_INDEX]);
-    printf("%s", STUDENT_DATABASE[i][GROUP_INDEX]);
-  }
-}
-
-/**
-* Finds the student by ID
-*
-* @param: id an int
-* @return: int the row the student is in the 2D array, or -1 if the student was not found
-*/
-int findStudent(int id) {
-    for (int i = 0; i < entries; i++) {
-        if (*(int*) STUDENT_DATABASE[i][ID_INDEX] == id) {
-            return i;
-        }
+    printf("  ID  | Name | Age | Program | GPA | Group\n");
+    for (int i = 0; i < NUMBER_OF_STUDENTS; i++) {
+        printf("%s", STUDENT_DATABASE[i][ID_INDEX]);
+        printf("%s", STUDENT_DATABASE[i][NAME_INDEX]);
+        printf("%s", STUDENT_DATABASE[i][AGE_INDEX]);
+        printf("%s", STUDENT_DATABASE[i][PROGRAM_INDEX]);
+        printf("%s", STUDENT_DATABASE[i][GPA_INDEX]);
+        printf("%p", &STUDENT_DATABASE[i][GROUP_INDEX]);
     }
-    return -1;
 }
 
 // Find a student by ID and display their group.
@@ -221,6 +226,20 @@ void deleteStudent(int id) {
     shiftDatabase(row);
 }
 
+/**
+ * Display the prompt for deleting and validates input before calling the delete function.
+ */
+void deleteStudentPrompt() {
+    char id[100];
+    printf("To delete a student, please enter their student ID:");
+    scanf("%s", id);
+    if (!isInt(id)) {
+        printf("That is a invalid ID");
+    }
+    int idNum = atoi(id);
+    deleteStudent(idNum);
+}
+
 //Display all students in a specified group.
 void listByGroup() {}
 
@@ -249,7 +268,6 @@ char isValid(const char* command) {
 
 void promptCommand(char* shouldExit) {
       char command[256] = "";
-
       do {
           printf("Please enter a valid command: ");
           scanf("%s", command);
