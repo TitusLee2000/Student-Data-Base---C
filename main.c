@@ -161,15 +161,34 @@ void addStudentPrompt(int row) {
     return;
   }
 
-  addStudent((int) id, name, (int) age, program, gpaValue, group, row);
+  addStudent((int) id, name, (int) age, program, gpaValue, group);
 }
 
 //Show all stored student records, categorized by group.
-void displayStudent() {}
+void displayStudent() {
+  printf("  ID  | Name | Age | Program | GPA | Group\n");
+  for (int i = 0; i < NUMBER_OF_STUDENTS; i++) {
+    printf("%s", STUDENT_DATABASE[i][ID_INDEX]);
+    printf("%s", STUDENT_DATABASE[i][NAME_INDEX]);
+    printf("%s", STUDENT_DATABASE[i][AGE_INDEX]);
+    printf("%s", STUDENT_DATABASE[i][PROGRAM_INDEX]);
+    printf("%s", STUDENT_DATABASE[i][GPA_INDEX]);
+    printf("%s", STUDENT_DATABASE[i][GROUP_INDEX]);
+  }
+}
+* ID: unique, int
+* Name: char
+* Age: int
+* Program: char array
+* GPA: float (0.00 - 5.00 only take in 2 decimal place)
+* Group: char array
 
-// finds the student by ID
-// personal helper funciton
-// return: int the row the student is in the 2D array, or -1 if the student was not found
+/**
+* Finds the student by ID
+*
+* @param: id an int
+* @return: int the row the student is in the 2D array, or -1 if the student was not found
+*/
 int findStudent(int id) {
     for (int i = 0; i < entries; i++) {
         if (*(int*) STUDENT_DATABASE[i][ID_INDEX] == id) {
