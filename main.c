@@ -28,6 +28,7 @@ Expected Outcome:
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 const int NUMBER_OF_STUDENTS = 50;
 const void* STUDENT_DATABASE [NUMBER_OF_STUDENTS][6];
@@ -50,6 +51,36 @@ void lowerString(char* string) {
     }
 }
 
+/**
+* see if it only contains numbers
+*
+* @param: string a string
+* @return: 1 true if its an integer else 0 false
+*/
+int isInt(char* string) {
+    for (int i = 0; string[i] != '\0'; i++) {
+        if (!isdigit(string[i])){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/**
+* see if it only contains characters
+*
+* @param: string a string
+* @return: 1 true if its a string else 0 false
+*/
+int isString(char* string) {
+    for (int i = 0; string[i] != '\0'; i++) {
+        if (!isalpha(string[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 //Allow users to enter a student's name, ID, age, program,
 //GPA, and group (Group BBY or Group DTC).
 void addStudent(int id, char* name, int age, char* program,
@@ -61,54 +92,60 @@ void addStudent(int id, char* name, int age, char* program,
     STUDENT_DATABASE[row][GPA_INDEX] = &gpa;
     STUDENT_DATABASE[row][GROUP_INDEX] = &group;
 }
+
 /**
 * -- Constraints --
 * ID: unique, int
 * Name: char
 * Age: int
-*
+* Program: char array
+* GPA: float (0.00 - 5.00 only take in 2 decimal place)
+* Group: char array
 */
 void addStudentPrompt(int row){
-  int id, age;
-  double gpa;
-  char* name[100], program[40], group;
+  char id[100], name[100], age[10], program[40], gpa[10], group;
   printf("To add a new student, please enter the following:\nStudent ID:");
-  scanf("%d", &id);
-  // CALL Find ID see if its in it
-  if (!isdigit(id)){
+  scanf("%s", id);
+  // >>>>> CALL Find ID see if its unique <<<<
+  if (!isInt(id)) {
       printf("That is a invalid ID");
       return;
   }
 
   printf("Name:");
-  scanf("%s", *name);
-  for (int i = 0; i < strlen(*name); i++){
-    if (!isalpha(*name[i])) {
+  scanf("%s", name);
+    if (!isString(name)) {
       printf("Name can only contain characters");
       return;
     }
-  }
 
   printf("Age:");
-  scanf("%d", &age);
-  if (!isdigit(age)){
+  scanf("%s", age);
+  if (isInt(age)){
     printf("Age must be an integer");
     return;
   }
 
   printf("Program:");
   scanf("%s", program);
-  if (!isalpha(*program)){
+  if (!isString(program)) {
     printf("Program must only conatin characters");
     return;
   }
 
   printf("Gpa:");
-  scanf("%lf", &gpa);
-  if (!isdigit(*program)){
-    printf("Gpa must be an integer");
+  scanf("%s", gpa);
+  char* endptr;
+  double gpaValue = strtod(gpa, &endptr);
+  if (endptr != '\0') {
+    printf("GPA must be a double");
     return;
   }
+  if (gpaValue < 0 || gpaValue > 5) {
+    printf("Gpa must be between 0 and 5");
+    return;
+  }
+  gpaValue = (double)((int) gpaValue*100)/100;
 
   printf("Group [D]: Downtown campus [B]: Burnaby campus");
   scanf("%c", group);
@@ -116,7 +153,8 @@ void addStudentPrompt(int row){
     printf("Group can only be D - downtown or B - Burnaby");
     return;
   }
-  addStudent(id, *name, age, program, gpa, group, row);
+
+  addStudent((int) id, name, (int) age, program, gpaValue, group, row);
 }
 
 //Show all stored student records, categorized by group.
