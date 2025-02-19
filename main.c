@@ -53,7 +53,7 @@ void lowerString(char* string) {
 //Allow users to enter a student's name, ID, age, program,
 //GPA, and group (Group BBY or Group DTC).
 void addStudent(int id, char* name, int age, char* program,
-                double gpa, char* group, int row) {
+                double gpa, char group, int row) {
     STUDENT_DATABASE[row][ID_INDEX] = &id;
     STUDENT_DATABASE[row][NAME_INDEX] = &name;
     STUDENT_DATABASE[row][AGE_INDEX] = &age;
@@ -61,23 +61,62 @@ void addStudent(int id, char* name, int age, char* program,
     STUDENT_DATABASE[row][GPA_INDEX] = &gpa;
     STUDENT_DATABASE[row][GROUP_INDEX] = &group;
 }
+/**
+* -- Constraints --
+* ID: unique, int
+* Name: char
+* Age: int
+*
+*/
 void addStudentPrompt(int row){
   int id, age;
   double gpa;
-  char* name[100], program[40], group[40];
+  char* name[100], program[40], group;
   printf("To add a new student, please enter the following:\nStudent ID:");
   scanf("%d", &id);
+  // CALL Find ID see if its in it
+  if (!isdigit(id)){
+      printf("That is a invalid ID");
+      return;
+  }
+
   printf("Name:");
-  scanf("%s", name);
+  scanf("%s", *name);
+  for (int i = 0; i < strlen(*name); i++){
+    if (!isalpha(*name[i])) {
+      printf("Name can only contain characters");
+      return;
+    }
+  }
+
   printf("Age:");
   scanf("%d", &age);
+  if (!isdigit(age)){
+    printf("Age must be an integer");
+    return;
+  }
+
   printf("Program:");
   scanf("%s", program);
+  if (!isalpha(*program)){
+    printf("Program must only conatin characters");
+    return;
+  }
+
   printf("Gpa:");
   scanf("%lf", &gpa);
-  printf("Group:");
-  scanf("%s", group);
-  addStudent(id, name, age, program, gpa, group, row);
+  if (!isdigit(*program)){
+    printf("Gpa must be an integer");
+    return;
+  }
+
+  printf("Group [D]: Downtown campus [B]: Burnaby campus");
+  scanf("%c", group);
+  if (tolower(group) != 'd' || tolower(group) != 'b') {
+    printf("Group can only be D - downtown or B - Burnaby");
+    return;
+  }
+  addStudent(id, *name, age, program, gpa, group, row);
 }
 
 //Show all stored student records, categorized by group.
