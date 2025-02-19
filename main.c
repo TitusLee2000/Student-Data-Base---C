@@ -32,13 +32,14 @@ Expected Outcome:
 
 #define MAX_SIZE 50
 
+#define ID_INDEX 0
+#define NAME_INDEX 1
+#define AGE_INDEX 2
+#define PROGRAM_INDEX 3
+#define GPA_INDEX 4
+#define GROUP_INDEX 5
+
 void* STUDENT_DATABASE [MAX_SIZE][6];
-const int ID_INDEX      = 0;
-const int NAME_INDEX    = 1;
-const int AGE_INDEX     = 2;
-const int PROGRAM_INDEX = 3;
-const int GPA_INDEX     = 4;
-const int GROUP_INDEX   = 5;
 
 size_t entries = 0;
 
