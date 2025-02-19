@@ -302,6 +302,8 @@ void runCommand(const int commandNum) {
         case LIST:
             printf("List not yet implemented");
             break;
+        default:
+            break;
     }
 }
 
