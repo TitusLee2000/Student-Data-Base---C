@@ -140,31 +140,31 @@ void addStudent(int id, char name, int age, char program,
 */
 void addStudentPrompt() {
     char id[100], name[100], age[10], program[40], gpa[10], group;
-    printf("To add a new student, please enter the following:");
+    printf("To add a new student, please enter the following:\n");
 
-    printf("Student ID:");
+    printf("Student ID: ");
     scanf("%s", id);
     if (!isInt(id)) {
-        printf("That is a invalid ID");
+        printf("That is a invalid ID\n");
         return;
     }
     int idNum = atoi(id);
     if (findStudent(idNum) != -1) {
-        printf("Student ID already exist");
+        printf("Student ID already exist\n");
         return;
     }
 
-    printf("Name:");
+    printf("Name: ");
     scanf("%s", name);
     if (!isString(name)) {
-      printf("Name can only contain characters");
+      printf("Name can only contain characters\n");
       return;
     }
 
-    printf("Age:");
+    printf("Age: ");
     scanf("%s", age);
     if (isInt(age)){
-        printf("Age must be an integer");
+        printf("Age must be an integer\n");
         return;
     }
     int ageNum = atoi(age);
@@ -172,7 +172,7 @@ void addStudentPrompt() {
     printf("Program:");
     scanf("%s", program);
     if (!isString(program)) {
-        printf("Program must only contain characters");
+        printf("Program must only contain characters \n");
         return;
     }
 
@@ -181,16 +181,16 @@ void addStudentPrompt() {
     char* endptr;
     double gpaValue = strtod(gpa, &endptr);
     if (*endptr != '\0') {
-        printf("GPA must be a double");
+        printf("GPA must be a double \n");
         return;
     }
     if (gpaValue < 0 || gpaValue > 5) {
-        printf("Gpa must be between 0 and 5");
+        printf("Gpa must be between 0 and 5 \n");
         return;
     }
     gpaValue = (double)((int) gpaValue*100)/100;
 
-    printf("Group [D]: Downtown campus [B]: Burnaby campus");
+    printf("Group [D]: Downtown campus [B]: Burnaby campus \n");
     scanf("%c", group);
     if (tolower(group) != 'd' || tolower(group) != 'b') {
         printf("Group can only be D - Downtown or B - Burnaby");
