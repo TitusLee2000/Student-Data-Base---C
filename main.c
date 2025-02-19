@@ -30,8 +30,10 @@ Expected Outcome:
 #include <string.h>
 #include <stdlib.h>
 
+// The maximum number of students the database can store
 #define MAX_SIZE 50
 
+// The indexes of student attributes
 #define ID_INDEX 0
 #define NAME_INDEX 1
 #define AGE_INDEX 2
