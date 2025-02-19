@@ -41,9 +41,16 @@ Expected Outcome:
 #define GPA_INDEX 4
 #define GROUP_INDEX 5
 
+// Command codes
+#define ADD 0
+#define DISPLAY 1
+#define SEARCH 2
+#define DELETE 3
+#define LIST 4
+#define EXIT 5
+
 // The database
 void* STUDENT_DATABASE [MAX_SIZE][6];
-
 // The number of students currently stored in the database
 size_t entries = 0;
 
@@ -51,6 +58,7 @@ size_t entries = 0;
 const static unsigned short NUM_COMMANDS = 6;
 // An array containing all valid commands
 const static char* COMMANDS[6] = {"add", "display", "search", "delete", "list", "exit"};
+
 
 // Takes a null-terminated string and replaces all uppercase letters with lowercase
 void lowerString(char* string) {
@@ -250,6 +258,23 @@ void deleteStudentPrompt() {
 void listByGroup() {}
 
 void runCommand(const int commandNum) {
+    switch (commandNum) {
+        case ADD:
+            addStudentPrompt();
+            break;
+        case DISPLAY:
+            printf("Display not yet implemented");
+            break;
+        case SEARCH:
+            printf("Search not yet implemented");
+            break;
+        case DELETE:
+            deleteStudentPrompt();
+            break;
+        case LIST:
+            printf("List not yet implemented");
+            break;
+    }
 }
 
 void parseCommand(const char* command) {
