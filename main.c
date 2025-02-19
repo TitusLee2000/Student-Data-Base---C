@@ -110,58 +110,59 @@ void addStudent(int id, char* name, int age, char* program,
 * Group: char array
 */
 void addStudentPrompt(int row) {
-  char id[100], name[100], age[10], program[40], gpa[10], group;
-  printf("To add a new student, please enter the following:\nStudent ID:");
-  scanf("%s", id);
-  // >>>>> CALL Find ID see if its unique <<<<
-  if (!isInt(id)) {
-      printf("That is a invalid ID");
-      return;
-  }
+    char id[100], name[100], age[10], program[40], gpa[10], group;
+    printf("To add a new student, please enter the following:\nStudent ID:");
+    scanf("%s", id);
+    // >>>>> CALL Find ID see if its unique <<<<
+    if (!isInt(id)) {
+        printf("That is a invalid ID");
+        return;
+    }
+    int idNum = atoi(id);
 
-  printf("Name:");
-  scanf("%s", name);
+    printf("Name:");
+    scanf("%s", name);
     if (!isString(name)) {
       printf("Name can only contain characters");
       return;
     }
 
-  printf("Age:");
-  scanf("%s", age);
-  if (isInt(age)){
-    printf("Age must be an integer");
-    return;
-  }
+    printf("Age:");
+    scanf("%s", age);
+    if (isInt(age)){
+        printf("Age must be an integer");
+        return;
+    }
+    int ageNum = atoi(age);
 
-  printf("Program:");
-  scanf("%s", program);
-  if (!isString(program)) {
-    printf("Program must only conatin characters");
-    return;
-  }
+    printf("Program:");
+    scanf("%s", program);
+    if (!isString(program)) {
+        printf("Program must only contain characters");
+        return;
+    }
 
-  printf("Gpa:");
-  scanf("%s", gpa);
-  char* endptr;
-  double gpaValue = strtod(gpa, &endptr);
-  if (endptr != '\0') {
-    printf("GPA must be a double");
-    return;
-  }
-  if (gpaValue < 0 || gpaValue > 5) {
-    printf("Gpa must be between 0 and 5");
-    return;
-  }
-  gpaValue = (double)((int) gpaValue*100)/100;
+    printf("Gpa:");
+    scanf("%s", gpa);
+    char* endptr;
+    double gpaValue = strtod(gpa, &endptr);
+    if (*endptr != '\0') {
+        printf("GPA must be a double");
+        return;
+    }
+    if (gpaValue < 0 || gpaValue > 5) {
+        printf("Gpa must be between 0 and 5");
+        return;
+    }
+    gpaValue = (double)((int) gpaValue*100)/100;
 
-  printf("Group [D]: Downtown campus [B]: Burnaby campus");
-  scanf("%c", group);
-  if (tolower(group) != 'd' || tolower(group) != 'b') {
-    printf("Group can only be D - downtown or B - Burnaby");
-    return;
-  }
-
-  addStudent((int) id, name, (int) age, program, gpaValue, group);
+    printf("Group [D]: Downtown campus [B]: Burnaby campus");
+    scanf("%c", group);
+    if (tolower(group) != 'd' || tolower(group) != 'b') {
+        printf("Group can only be D - Downtown or B - Burnaby");
+        return;
+    }
+    addStudent(idNum, name, ageNum, program, gpaValue, group);
 }
 
 //Show all stored student records, categorized by group.
