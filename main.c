@@ -149,7 +149,7 @@ void addStudentPrompt() {
         return;
     }
     int idNum = atoi(id);
-    if (findStudent(idNum)) {
+    if (findStudent(idNum) != -1) {
         printf("Student ID already exist");
         return;
     }
