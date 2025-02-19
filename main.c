@@ -224,7 +224,7 @@ void displayStudent() {
 void searchStudent(int id) {
 }
 
-void shiftDatabase(int row) {
+void shiftDatabase(size_t row) {
     for (int i = row+1; i < entries; i++) {
         for (int j = 0; j < 6; j++) {
             STUDENT_DATABASE[i-1][j] = STUDENT_DATABASE[i][j];
@@ -317,7 +317,6 @@ void parseCommand(const char* command) {
 char isValid(const char* command) {
     for (int i = 0; i < NUM_COMMANDS; i++) {
         if (strcmp(command, COMMANDS[i]) == 0) {
-            runCommand(i);
             return 1;
         }
     }
