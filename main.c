@@ -56,6 +56,9 @@ void lowerString(char* string) {
 //GPA, and group (Group BBY or Group DTC).
 void addStudent(int id, char* name, int age, char* program,
                 double gpa, char group) {
+    if (entries >= NUMBER_OF_STUDENTS) {
+      printf("Error: Database full!\n");
+    }
     size_t row = entries++;
 
     STUDENT_DATABASE[row][ID_INDEX] = &id;
