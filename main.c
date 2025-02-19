@@ -39,6 +39,8 @@ const int PROGRAM_INDEX = 3;
 const int GPA_INDEX     = 4;
 const int GROUP_INDEX   = 5;
 
+size_t entries = 0;
+
 // Number of commands
 const static unsigned short NUM_COMMANDS = 6;
 // An array containing all valid commands
@@ -84,7 +86,12 @@ int isString(char* string) {
 //Allow users to enter a student's name, ID, age, program,
 //GPA, and group (Group BBY or Group DTC).
 void addStudent(int id, char* name, int age, char* program,
-                double gpa, char group, int row) {
+                double gpa, char group) {
+    if (entries >= NUMBER_OF_STUDENTS) {
+      printf("Error: Database full!\n");
+    }
+    size_t row = entries++;
+
     STUDENT_DATABASE[row][ID_INDEX] = &id;
     STUDENT_DATABASE[row][NAME_INDEX] = &name;
     STUDENT_DATABASE[row][AGE_INDEX] = &age;
@@ -162,19 +169,43 @@ void displayStudent() {}
 
 // finds the student by ID
 // personal helper funciton
-// return: int the row the student is in the 2D array
+// return: int the row the student is in the 2D array, or -1 if the student was not found
 int findStudent(int id) {
-    for (int i = 0; i < NUMBER_OF_STUDENTS; i++) {
-      if
+    for (int i = 0; i < entries; i++) {
+        if (*(int*) STUDENT_DATABASE[i][ID_INDEX] == id) {
+            return i;
+        }
     }
+    return -1;
 }
 
 // Find a student by ID and display their group.
 void searchStudent(int id) {
 }
 
+void shiftDatabase(int row) {
+    for (int i = row+1; i < entries; i++) {
+        for (int j = 0; j < 6; j++) {
+            STUDENT_DATABASE[i-1][j] = STUDENT_DATABASE[i][j];
+        }
+    }
+
+    // Null out the last entry
+    for (int i = 0; i < 6; i++) {
+        STUDENT_DATABASE[entries][i] = NULL;
+    }
+    entries--;
+}
+
 // Remove a student record by ID.
-void deleteStudent(int id) {}
+void deleteStudent(int id) {
+    size_t row = findStudent(id);
+    if (row == -1) {
+        printf("Student with id %d not found\n", id);
+        return;
+    }
+    shiftDatabase(row);
+}
 
 //Display all students in a specified group.
 void listByGroup() {}
@@ -204,7 +235,6 @@ char isValid(const char* command) {
 
 void promptCommand(char* shouldExit) {
       char command[256] = "";
-      int row = 0;
 
       do {
           printf("Please enter a valid command: ");
