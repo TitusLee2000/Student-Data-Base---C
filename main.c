@@ -29,6 +29,20 @@ Expected Outcome:
 #include <stdio.h>
 #include <string.h>
 
+const int NUMBER_OF_STUDENTS = 50;
+const void* STUDENT_DATABASE [NUMBER_OF_STUDENTS][6];
+const int ID_INDEX      = 0;
+const int NAME_INDEX    = 1;
+const int AGE_INDEX     = 2;
+const int PROGRAM_INDEX = 3;
+const int GPA_INDEX     = 4;
+const int GROUP_INDEX   = 5;
+
+// Number of commands
+const static unsigned short NUM_COMMANDS = 6;
+// An array containing all valid commands
+const static char* COMMANDS[6] = {"add", "display", "search", "delete", "list", "exit"};
+
 // Takes a null-terminated string and replaces all uppercase letters with lowercase
 void lowerString(char* string) {
     for (int i = 0; string[i] != '\0'; i++) {
@@ -36,24 +50,41 @@ void lowerString(char* string) {
     }
 }
 
-// Number of commands
-const static unsigned short NUM_COMMANDS = 6;
-
-// An array containing all valid commands
-const static char* COMMANDS[6] = {"add", "display", "search", "delete", "list", "exit"};
-
 //Allow users to enter a student's name, ID, age, program,
 //GPA, and group (Group BBY or Group DTC).
-void addStudent(char* name, int id, int age, char* program,
-                double gpa, char* group, int row) {}
+void addStudent(int id, char* name, int age, char* program,
+                double gpa, char* group, int row) {
+    STUDENT_DATABASE[row][ID_INDEX] = id;
+}
+void addStudentPrompt(int row){
+  int id, age;
+  double gpa;
+  char* name[100], program[40], group[40];
+  printf("To add a new student, please enter the following:\nStudent ID:");
+  scanf("%d", &id);
+  printf("Name:");
+  scanf("%s", name);
+  printf("Age:");
+  scanf("%d", &age);
+  printf("Program:");
+  scanf("%s", program);
+  printf("Gpa:");
+  scanf("%lf", &gpa);
+  printf("Group:");
+  scanf("%s", group);
+  addStudent(id, name, age, program, gpa, group, row);
+}
 
 //Show all stored student records, categorized by group.
 void displayStudent() {}
 
 // finds the student by ID
+// personal helper funciton
 // return: int the row the student is in the 2D array
 int findStudent(int id) {
-  //not for marks but would make life easy
+    for (int i = 0; i < NUMBER_OF_STUDENTS; i++) {
+      if
+    }
 }
 
 // Find a student by ID and display their group.
@@ -91,6 +122,7 @@ char isValid(const char* command) {
 
 void promptCommand(char* shouldExit) {
       char command[256] = "";
+      int row = 0;
 
       do {
           printf("Please enter a valid command: ");
@@ -102,8 +134,8 @@ void promptCommand(char* shouldExit) {
       else parseCommand(command);
 }
 
-int main(){
-  void* studentDataBase [50][6];
+int main() {
+
   char shouldExit = 0;
   while (!shouldExit) {
       promptCommand(&shouldExit);
