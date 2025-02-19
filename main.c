@@ -132,9 +132,14 @@ void displayStudent() {}
 
 // finds the student by ID
 // personal helper funciton
-// return: int the row the student is in the 2D array
+// return: int the row the student is in the 2D array, or -1 if the student was not found
 int findStudent(int id) {
-
+    for (int i = 0; i < entries; i++) {
+        if (*(int*) STUDENT_DATABASE[i][ID_INDEX] == id) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 // Find a student by ID and display their group.
