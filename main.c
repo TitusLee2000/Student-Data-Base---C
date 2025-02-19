@@ -289,7 +289,6 @@ void parseCommand(const char* command) {
 char isValid(const char* command) {
     for (int i = 0; i < NUM_COMMANDS; i++) {
         if (strcmp(command, COMMANDS[i]) == 0) {
-            runCommand(i);
             return 1;
         }
     }
