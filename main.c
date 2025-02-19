@@ -133,6 +133,8 @@ void addStudent(int id, char name, int age, char program,
 }
 
 /**
+* Display the request and validates the user input before calling addStudent.
+*
 * -- Constraints --
 * ID: unique, int
 * Name: char
