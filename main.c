@@ -146,9 +146,28 @@ int findStudent(int id) {
 void searchStudent(int id) {
 }
 
+void shiftDatabase(int row) {
+    for (int i = row+1; i < entries; i++) {
+        for (int j = 0; j < 6; j++) {
+            STUDENT_DATABASE[i-1][j] = STUDENT_DATABASE[i][j];
+        }
+    }
+
+    // Null out the last entry
+    for (int i = 0; i < 6; i++) {
+        STUDENT_DATABASE[entries][i] = NULL;
+    }
+    entries--;
+}
+
 // Remove a student record by ID.
 void deleteStudent(int id) {
-
+    size_t row = findStudent(id);
+    if (row == -1) {
+        printf("Student with id %d not found\n", id);
+        return;
+    }
+    shiftDatabase(row);
 }
 
 //Display all students in a specified group.
