@@ -109,7 +109,7 @@ void addStudent(int id, char* name, int age, char* program,
 * GPA: float (0.00 - 5.00 only take in 2 decimal place)
 * Group: char array
 */
-void addStudentPrompt(int row){
+void addStudentPrompt(int row) {
   char id[100], name[100], age[10], program[40], gpa[10], group;
   printf("To add a new student, please enter the following:\nStudent ID:");
   scanf("%s", id);
