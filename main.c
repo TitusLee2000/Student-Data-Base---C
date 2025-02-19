@@ -147,26 +147,26 @@ void addStudentPrompt() {
     printf("Student ID: ");
     scanf("%s", id);
     if (!isInt(id)) {
-        printf("That is a invalid ID\n");
+        printf("ERROR: That is a invalid ID\n");
         return;
     }
     int idNum = atoi(id);
     if (findStudent(idNum) != -1) {
-        printf("Student ID already exist\n");
+        printf("ERROR: Student ID already exist\n");
         return;
     }
 
     printf("Name: ");
     scanf("%s", name);
     if (!isString(name)) {
-      printf("Name can only contain characters\n");
+      printf("ERROR: Name can only contain characters\n");
       return;
     }
 
     printf("Age: ");
     scanf("%s", age);
-    if (isInt(age)){
-        printf("Age must be an integer\n");
+    if (!isInt(age)){
+        printf("ERROR: Age must be an integer\n");
         return;
     }
     int ageNum = atoi(age);
@@ -174,7 +174,7 @@ void addStudentPrompt() {
     printf("Program:");
     scanf("%s", program);
     if (!isString(program)) {
-        printf("Program must only contain characters \n");
+        printf("ERROR: Program must only contain characters \n");
         return;
     }
 
@@ -183,19 +183,19 @@ void addStudentPrompt() {
     char* endptr;
     double gpaValue = strtod(gpa, &endptr);
     if (*endptr != '\0') {
-        printf("GPA must be a double \n");
+        printf("ERROR: GPA must be a double \n");
         return;
     }
     if (gpaValue < 0 || gpaValue > 5) {
-        printf("Gpa must be between 0 and 5 \n");
+        printf("ERROR: Gpa must be between 0 and 5 \n");
         return;
     }
     gpaValue = (double)((int) gpaValue*100)/100;
 
-    printf("Group [D]: Downtown campus [B]: Burnaby campus \n");
-    scanf("%c", group);
-    if (tolower(group) != 'd' || tolower(group) != 'b') {
-        printf("Group can only be D - Downtown or B - Burnaby");
+    printf("Group [D]-Downtown campus [B]-Burnaby campus:");
+    scanf(" %c", &group);
+    if (tolower(group) != 'd' && tolower(group) != 'b') {
+        printf("ERROR: Group can only be [D]-Downtown or [B]-Burnaby\n");
         return;
     }
     addStudent(idNum, name, ageNum, program, gpaValue, group);
@@ -276,11 +276,10 @@ void listByGroup(char group) {}
  */
 void listByGroupPrompt() {
     char group[100];
-    printf("Which student group would you like to look at\n"
-           "[D]:Downtown or [B]:Burnaby");
-    scanf("%s", group);
-    if (tolower(group) != 'd' || tolower(group) != 'b') {
-        printf("Group can only be D - Downtown or B - Burnaby");
+    printf("Group [D]-Downtown campus [B]-Burnaby campus:");
+    scanf(" %c", &group);
+    if (tolower(group) != 'd' && tolower(group) != 'b') {
+        printf("ERROR: Group can only be [D]-Downtown or [B]-Burnaby\n");
     } else {
         listByGroup(group);
     }
