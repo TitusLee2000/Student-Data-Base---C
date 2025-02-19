@@ -112,8 +112,10 @@ int isString(const char* string) {
     return 1;
 }
 
-//Allow users to enter a student's name, ID, age, program,
-//GPA, and group (Group BBY or Group DTC).
+/**
+ * REQUIRED
+ * Allow users to enter a student's name, ID, age, program, GPA, and group
+ */
 void addStudent(int id, char name, int age, char program,
                 double gpa, char group) {
     if (entries >= MAX_SIZE) {
@@ -199,7 +201,10 @@ void addStudentPrompt() {
     addStudent(idNum, name, ageNum, program, gpaValue, group);
 }
 
-//Show all stored student records, categorized by group.
+/**
+ * REQUIRED
+ * Show all stored student records, categorized by group.
+ */
 void displayStudent() {
     printf("  ID  | Name | Age | Program | GPA | Group\n");
     for (int i = 0; i < MAX_SIZE; i++) {
@@ -212,7 +217,10 @@ void displayStudent() {
     }
 }
 
-// Find a student by ID and display their group.
+/**
+ * REQUIRED
+ * Find a student by ID and display their group.
+ */
 void searchStudent(int id) {
 }
 
@@ -230,7 +238,10 @@ void shiftDatabase(int row) {
     entries--;
 }
 
-// Remove a student record by ID.
+/**
+ * REQUIRED
+ * Removes a student record by ID
+ */
 void deleteStudent(int id) {
     size_t row = findStudent(id);
     if (row == -1) {
@@ -254,8 +265,26 @@ void deleteStudentPrompt() {
     deleteStudent(idNum);
 }
 
-//Display all students in a specified group.
-void listByGroup() {}
+/**
+ * REQUIRED
+ * Display all students in a specified group
+ */
+void listByGroup(char group) {}
+
+/**
+ * Display prompt for listing groups and validates user input before calling listByGroup.
+ */
+void listByGroupPrompt() {
+    char group[100];
+    printf("Which student group would you like to look at\n"
+           "[D]:Downtown or [B]:Burnaby");
+    scanf("%s", group);
+    if (tolower(group) != 'd' || tolower(group) != 'b') {
+        printf("Group can only be D - Downtown or B - Burnaby");
+    } else {
+        listByGroup(group);
+    }
+}
 
 void runCommand(const int commandNum) {
     switch (commandNum) {
