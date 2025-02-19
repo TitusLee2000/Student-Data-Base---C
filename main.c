@@ -54,7 +54,12 @@ void lowerString(char* string) {
 //GPA, and group (Group BBY or Group DTC).
 void addStudent(int id, char* name, int age, char* program,
                 double gpa, char* group, int row) {
-    STUDENT_DATABASE[row][ID_INDEX] = id;
+    STUDENT_DATABASE[row][ID_INDEX] = &id;
+    STUDENT_DATABASE[row][NAME_INDEX] = &name;
+    STUDENT_DATABASE[row][AGE_INDEX] = &age;
+    STUDENT_DATABASE[row][PROGRAM_INDEX] = &program;
+    STUDENT_DATABASE[row][GPA_INDEX] = &gpa;
+    STUDENT_DATABASE[row][GROUP_INDEX] = &group;
 }
 void addStudentPrompt(int row){
   int id, age;
