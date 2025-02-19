@@ -176,12 +176,6 @@ void displayStudent() {
     printf("%s", STUDENT_DATABASE[i][GROUP_INDEX]);
   }
 }
-* ID: unique, int
-* Name: char
-* Age: int
-* Program: char array
-* GPA: float (0.00 - 5.00 only take in 2 decimal place)
-* Group: char array
 
 /**
 * Finds the student by ID
