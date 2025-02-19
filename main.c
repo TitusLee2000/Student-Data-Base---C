@@ -163,7 +163,7 @@ void addStudentPrompt() {
 
     printf("Age: ");
     scanf("%s", age);
-    if (isInt(age)){
+    if (!isInt(age)){
         printf("Age must be an integer\n");
         return;
     }
