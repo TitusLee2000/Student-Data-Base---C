@@ -208,11 +208,11 @@ void addStudentPrompt() {
 void displayStudent() {
     printf("  ID  | Name | Age | Program | GPA | Group\n");
     for (int i = 0; i < MAX_SIZE; i++) {
-        printf("%s", STUDENT_DATABASE[i][ID_INDEX]);
-        printf("%s", STUDENT_DATABASE[i][NAME_INDEX]);
-        printf("%s", STUDENT_DATABASE[i][AGE_INDEX]);
-        printf("%s", STUDENT_DATABASE[i][PROGRAM_INDEX]);
-        printf("%s", STUDENT_DATABASE[i][GPA_INDEX]);
+        printf("%p", &STUDENT_DATABASE[i][ID_INDEX]);
+        printf("%p", &STUDENT_DATABASE[i][NAME_INDEX]);
+        printf("%p", &STUDENT_DATABASE[i][AGE_INDEX]);
+        printf("%p", &STUDENT_DATABASE[i][GPA_INDEX]);
+        printf("%p", &STUDENT_DATABASE[i][PROGRAM_INDEX]);
         printf("%p", &STUDENT_DATABASE[i][GROUP_INDEX]);
     }
 }
@@ -242,7 +242,7 @@ void shiftDatabase(int row) {
  * REQUIRED
  * Removes a student record by ID
  */
-void deleteStudent(int id) {
+void deleteStudent(const int id) {
     size_t row = findStudent(id);
     if (row == -1) {
         printf("Student with id %d not found\n", id);
@@ -261,7 +261,7 @@ void deleteStudentPrompt() {
     if (!isInt(id)) {
         printf("That is a invalid ID");
     }
-    int idNum = atoi(id);
+    const int idNum = atoi(id);
     deleteStudent(idNum);
 }
 
