@@ -247,13 +247,13 @@ void displayStudent() {
  * REQUIRED
  * Find a student by ID and display their group.
  */
-void searchStudent(const int id) {
-    for (int i = 0; i < MAX_SIZE; i++) {
-        if (*(int*)STUDENT_DATABASE[i][ID_INDEX] == id) {
-            printf("The student with id %d is at group: %s", id, (char*)STUDENT_DATABASE[i][GROUP_INDEX]);
-        }
-    }
-}
+// void searchStudent(const int id) {
+//     for (int i = 0; i < MAX_SIZE; i++) {
+//         if ((int*)STUDENT_DATABASE[ID_INDEX])[i]) == id) {
+//             printf("The student with id %d is at group: %s", id, (char*)STUDENT_DATABASE[i][GROUP_INDEX]);
+//         }
+//     }
+// }
 
 /**
  * Display the prompt and validates the input before displaying the student's group.
@@ -266,23 +266,23 @@ void searchStudentPrompt() {
         printf("ERROR: That is a invalid ID\n");
     } else {
         int idNum = atoi(id);
-        searchStudent(idNum);
+        //searchStudent(idNum);
     }
 }
 
-void shiftDatabase(const size_t row) {
-    for (int i = row + 1; i < entries; i++) {
-        for (int j = 0; j < 6; j++) {
-            STUDENT_DATABASE[i-1][j] = STUDENT_DATABASE[i][j];
-        }
-    }
-
-    // Null out the last entry
-    for (int i = 0; i < 6; i++) {
-        STUDENT_DATABASE[entries][i] = NULL;
-    }
-    entries--;
-}
+// void shiftDatabase(const size_t row) {
+//     for (int i = row + 1; i < entries; i++) {
+//         for (int j = 0; j < 6; j++) {
+//             STUDENT_DATABASE[i-1][j] = STUDENT_DATABASE[i][j];
+//         }
+//     }
+//
+//     // Null out the last entry
+//     for (int i = 0; i < 6; i++) {
+//         STUDENT_DATABASE[entries][i] = NULL;
+//     }
+//     entries--;
+// }
 
 /**
  * REQUIRED
@@ -294,7 +294,7 @@ void deleteStudent(const int id) {
         printf("Student with id %d not found\n", id);
         return;
     }
-    shiftDatabase(row);
+    //shiftDatabase(row);
 }
 
 /**
