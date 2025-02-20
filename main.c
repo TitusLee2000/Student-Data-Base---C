@@ -345,6 +345,9 @@ void searchStudentPrompt() {
 }
 
 void shiftDatabase(const size_t row) {
+    free(((char**)STUDENT_DATABASE[NAME_INDEX])[row]);
+    free(((char**)STUDENT_DATABASE[PROGRAM_INDEX])[row]);
+
     for (size_t i = row + 1; i < entries; i++) {
         ((int*)STUDENT_DATABASE[ID_INDEX])[i-1] = ((int*)STUDENT_DATABASE[ID_INDEX])[i];
         ((char**)STUDENT_DATABASE[NAME_INDEX])[i-1] = ((char**)STUDENT_DATABASE[NAME_INDEX])[i];
