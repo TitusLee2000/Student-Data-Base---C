@@ -284,27 +284,6 @@ void addStudentPrompt() {
 
 /**
  * REQUIRED
- * Show all stored student records, categorized by group.
- */
-void displayStudent() {
-    if (entries < 1) {
-        printf("No students to display\n");
-        return;
-    }
-
-    printf("ID  | Name | Age | Program | GPA | Group\n");
-    for (int i = 0; i < entries; i++) {
-        printf("%d | ", ((int*) STUDENT_DATABASE[ID_INDEX])[i]);
-        printf("%s | ", ((char**) STUDENT_DATABASE[NAME_INDEX])[i]);
-        printf("%d | ", ((int*) STUDENT_DATABASE[AGE_INDEX])[i]);
-        printf("%s | ", ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[i]);
-        printf("%f | ", ((double*) STUDENT_DATABASE[GPA_INDEX])[i]);
-        printf("%c\n", ((char*) STUDENT_DATABASE[GROUP_INDEX])[i]);
-    }
-}
-
-/**
- * REQUIRED
  * Find a student by ID and display their group.
  */
 void searchStudent(const int id) {
@@ -401,6 +380,7 @@ void deleteStudentPrompt() {
  */
 void listByGroup(char group) {
     printf("Students in group %c:\n", group);
+    printf("ID  | Name | Age | Program | GPA | Group\n");
     char foundAny = 0;
     for (size_t i = 0; i < entries; i++) {
         if (((char*)STUDENT_DATABASE[GROUP_INDEX])[i] == group) {
@@ -435,6 +415,20 @@ void listByGroupPrompt() {
     } else {
         listByGroup(group[0]);
     }
+}
+
+/**
+ * REQUIRED
+ * Show all stored student records, categorized by group.
+ */
+void displayStudent() {
+    if (entries < 1) {
+        printf("No students to display\n");
+        return;
+    }
+
+    listByGroup('d');
+    listByGroup('b');
 }
 
 void runCommand(const int commandNum) {
