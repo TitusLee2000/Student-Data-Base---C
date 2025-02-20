@@ -148,6 +148,79 @@ void addStudent(int id, char* name, int age, char* program,
     ((char*) STUDENT_DATABASE[GROUP_INDEX])[row] = group;
 }
 
+char validateID (char* id) {
+    if (!isInt(id)) {
+        printf("ID must be numeric!\n");
+        return 0;
+    }
+
+    int idAsInt = atoi(id);
+    if (findStudent(idAsInt) != -1) {
+        printf("Student with ID %d already exists!\n", idAsInt);
+        return 0;
+    }
+
+    return 1;
+}
+
+char validateName(char* name) {
+    if (name == NULL || name[0] == '\0' ) {
+        printf("Name must not be empty!\n");
+        return 0;
+    }
+    return 1;
+}
+
+char validateAge(char* age) {
+    if (!isInt(age)) {
+        printf("Age must be numeric!\n");
+        return 0;
+    }
+
+    int ageAsInt = atoi(age);
+    if (ageAsInt < 18) {
+        printf("Age must be greater than 18!\n");
+        return 0;
+    }
+    return 1;
+}
+
+char validateProgram(char* program) {
+    if (program == NULL || program[0] == '\0' ) {
+        printf("Program must not be empty!\n");
+        return 0;
+    }
+    return 1;
+}
+
+char validateGPA(char* gpa) {
+    char* endptr;
+    double gpaValue = strtod(gpa, &endptr);
+    if (*endptr != '\0') {
+        printf("GPA must be a double\n");
+        return 0;
+    }
+    if (gpaValue < 0 || gpaValue > 5) {
+        printf("GPA must be between 0 and 5\n");
+        return 0;
+    }
+    return 1;
+}
+
+char validateGroup (char* group)
+{
+    if (group == NULL || group[0] == '\0' ) {
+        printf("Group must not be empty!\n");
+        return 0;
+    }
+    if (tolower(group[0]) != 'd' && tolower(group[0]) != 'b') {
+        printf("Group must be [D]-Downtown or [B]-Burnaby\n");
+        return 0;
+    }
+
+    return 1;
+}
+
 /**
 * Display the request and validates the user input before calling addStudent.
 *
@@ -160,65 +233,48 @@ void addStudent(int id, char* name, int age, char* program,
 * Group: char array
 */
 void addStudentPrompt() {
-    char id[100], name[256] = "", age[10], program[40] = "", gpa[10], group;
+    char id[100], name[256] = "", age[10], program[40] = "", gpa[10], group[256];
     printf("To add a new student, please enter the following:\n");
 
-    printf("Student ID: ");
-    scanf("%s", id);
-    if (!isInt(id)) {
-        printf("ERROR: That is a invalid ID\n");
-        return;
+    do {
+        printf("Enter a valid Student ID: ");
+        scanf("%s", id);
     }
+    while (!validateID(id));
     int idNum = atoi(id);
-    if (findStudent(idNum) != -1) {
-        printf("ERROR: Student ID already exist\n");
-        return;
-    }
 
-    printf("Name: ");
-    scanf("%s", name);
-    if (!isString(name)) {
-      printf("ERROR: Name can only contain characters\n");
-      return;
-    }
+    do {
+        printf("Enter student's name: ");
+        scanf("%s", name);
+    } while (!validateName(name));
 
-    printf("Age: ");
-    scanf("%s", age);
-    if (!isInt(age)){
-        printf("ERROR: Age must be an integer\n");
-        return;
-    }
+    do {
+        printf("Enter student's age: ");
+        scanf("%s", age);
+    } while (!validateAge(age));
     int ageNum = atoi(age);
 
-    printf("Program:");
-    scanf("%s", program);
-    if (!isString(program)) {
-        printf("ERROR: Program must only contain characters \n");
-        return;
-    }
+    do {
+        printf("Enter student's program: ");
+        scanf("%s", program);
+    } while (!validateProgram(program));
 
-    printf("GPA:");
-    scanf("%s", gpa);
-    char* endptr;
-    double gpaValue = strtod(gpa, &endptr);
-    if (*endptr != '\0') {
-        printf("ERROR: GPA must be a double \n");
-        return;
-    }
-    if (gpaValue < 0 || gpaValue > 5) {
-        printf("ERROR: GPA must be between 0 and 5 \n");
-        return;
-    }
+    do {
+        printf("Enter student's GPA: ");
+        scanf("%s", gpa);
+    } while (!validateGPA(gpa));
+    double gpaValue = strtod(gpa, NULL);
     gpaValue = (double)((int) gpaValue*100)/100;
 
-    printf("Group [D]-Downtown campus [B]-Burnaby campus:");
-    scanf(" %c", &group);
-    if (tolower(group) != 'd' && tolower(group) != 'b') {
-        printf("ERROR: Group can only be [D]-Downtown or [B]-Burnaby\n");
-        return;
-    }
+    do {
+        printf("Group [D]-Downtown campus [B]-Burnaby campus:");
+        scanf("%s", group);
+    } while (!validateGroup(group));
+    char groupChar = tolower(group[0]);
+
+
     addStudent(idNum, name, ageNum, program, gpaValue, group);
-    printf("Student added with these values:\n ID: %d,\n Name: %s,\n Age: %d,\n Program: %s,\n GPA: %f,\n Group: %c\n\n", idNum, name, ageNum, program, gpaValue, group);
+    printf("Student added with these values:\n ID: %d,\n Name: %s,\n Age: %d,\n Program: %s,\n GPA: %f,\n Group: %c\n\n", idNum, name, ageNum, program, gpaValue, groupChar);
 }
 
 /**
