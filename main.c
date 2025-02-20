@@ -160,7 +160,7 @@ void addStudent(int id, char* name, int age, char* program,
 * Group: char array
 */
 void addStudentPrompt() {
-    char id[100], name[256], age[10], program[40], gpa[10], group;
+    char id[100], name[256] = "", age[10], program[40] = "", gpa[10], group;
     printf("To add a new student, please enter the following:\n");
 
     printf("Student ID: ");
@@ -233,7 +233,6 @@ void displayStudent() {
 
     printf("ID  | Name | Age | Program | GPA | Group\n");
     for (int i = 0; i < entries; i++) {
-        char* name =  ((char**) STUDENT_DATABASE[NAME_INDEX])[i];
         printf("%d | ", ((int*) STUDENT_DATABASE[ID_INDEX])[i]);
         printf("%s | ", ((char**) STUDENT_DATABASE[NAME_INDEX])[i]);
         printf("%d | ", ((int*) STUDENT_DATABASE[AGE_INDEX])[i]);
@@ -270,19 +269,26 @@ void searchStudentPrompt() {
     }
 }
 
-// void shiftDatabase(const size_t row) {
-//     for (int i = row + 1; i < entries; i++) {
-//         for (int j = 0; j < 6; j++) {
-//             STUDENT_DATABASE[i-1][j] = STUDENT_DATABASE[i][j];
-//         }
-//     }
-//
-//     // Null out the last entry
-//     for (int i = 0; i < 6; i++) {
-//         STUDENT_DATABASE[entries][i] = NULL;
-//     }
-//     entries--;
-// }
+void shiftDatabase(const size_t row) {
+    for (size_t i = row + 1; i < entries; i++) {
+        ((int*)STUDENT_DATABASE[ID_INDEX])[i-1] = ((int*)STUDENT_DATABASE[ID_INDEX])[i];
+        ((char**)STUDENT_DATABASE[NAME_INDEX])[i-1] = ((char**)STUDENT_DATABASE[NAME_INDEX])[i];
+        ((int*)STUDENT_DATABASE[AGE_INDEX])[i-1] = ((int*)STUDENT_DATABASE[AGE_INDEX])[i];
+        ((char**)STUDENT_DATABASE[PROGRAM_INDEX])[i-1] = ((char**)STUDENT_DATABASE[PROGRAM_INDEX])[i];
+        ((double**)STUDENT_DATABASE[GPA_INDEX])[i-1] = ((double**)STUDENT_DATABASE[GPA_INDEX])[i];
+        ((char**)STUDENT_DATABASE[GROUP_INDEX])[i-1] = ((char**)STUDENT_DATABASE[GROUP_INDEX])[i];
+    }
+
+    // Null out the last entry
+        ((int*)STUDENT_DATABASE[ID_INDEX])[entries] = NULL;
+        ((char**)STUDENT_DATABASE[NAME_INDEX])[entries] = NULL;
+        ((int*)STUDENT_DATABASE[AGE_INDEX])[entries] = NULL;
+        ((char**)STUDENT_DATABASE[PROGRAM_INDEX])[entries] = NULL;
+        ((double**)STUDENT_DATABASE[GPA_INDEX])[entries]  = NULL;
+        ((char**)STUDENT_DATABASE[GROUP_INDEX])[entries]  = NULL;
+
+    entries--;
+}
 
 /**
  * REQUIRED
@@ -294,7 +300,7 @@ void deleteStudent(const int id) {
         printf("Student with id %d not found\n", id);
         return;
     }
-    //shiftDatabase(row);
+    shiftDatabase(row);
 }
 
 /**
