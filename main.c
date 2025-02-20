@@ -337,7 +337,7 @@ void runCommand(const int commandNum) {
             addStudentPrompt();
             break;
         case DISPLAY:
-            printf("Display not yet implemented\n");
+            displayStudent();
             break;
         case SEARCH:
             printf("Search not yet implemented\n");
