@@ -246,18 +246,32 @@ void displayStudent() {
  * REQUIRED
  * Find a student by ID and display their group.
  */
-// void searchStudent(const int id) {
-//     for (int i = 0; i < MAX_SIZE; i++) {
-//         if ((int*)STUDENT_DATABASE[ID_INDEX])[i]) == id) {
-//             printf("The student with id %d is at group: %s", id, (char*)STUDENT_DATABASE[i][GROUP_INDEX]);
-//         }
-//     }
-// }
+void searchStudent(const int id) {
+    const int row = findStudent(id);
+    if (row == -1) {
+        printf("No student with ID %d", id);
+        return;
+    }
+
+    char* group = "";
+    switch (((char*)STUDENT_DATABASE[ID_INDEX])[row]) {
+        case 'd':
+            group = "Downtown";
+            break;
+        case 'b':
+            group = "Burnaby";
+            break;
+    }
+    printf("Student with ID %d is in group %s", id, group);
+}
 
 /**
  * Display the prompt and validates the input before displaying the student's group.
  */
 void searchStudentPrompt() {
+    if (entries < 1) {
+        printf("No students to search\n");
+    }
     char id[100];
     printf("To find a student's group please enter their ID");
     scanf("%s", id);
@@ -265,7 +279,7 @@ void searchStudentPrompt() {
         printf("ERROR: That is a invalid ID\n");
     } else {
         int idNum = atoi(id);
-        //searchStudent(idNum);
+        searchStudent(idNum);
     }
 }
 
@@ -346,7 +360,7 @@ void runCommand(const int commandNum) {
             displayStudent();
             break;
         case SEARCH:
-            printf("Search not yet implemented\n");
+            searchStudentPrompt();
             break;
         case DELETE:
             deleteStudentPrompt();
