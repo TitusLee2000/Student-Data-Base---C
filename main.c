@@ -58,13 +58,20 @@ Expected Outcome:
 #define LIST 4
 #define EXIT 5
 
+// Columns in the database
+int IDs[MAX_SIZE];
+char names[MAX_SIZE][STRING_MAX];
+int ages[MAX_SIZE];
+char programs[MAX_SIZE][STRING_MAX];
+double GPAs[MAX_SIZE];
+char groups[MAX_SIZE];
+
 // The database
-void* STUDENT_DATABASE [MAX_SIZE][6];
+void* STUDENT_DATABASE [NUM_ATTRIBUTES] = {IDs, names, ages, programs, GPAs, groups};
+
 // The number of students currently stored in the database
 size_t entries = 0;
 
-// Number of commands
-const static unsigned short NUM_COMMANDS = 6;
 // An array containing all valid commands
 const static char* COMMANDS[6] = {"add", "display", "search", "delete", "list", "exit"};
 
@@ -84,12 +91,12 @@ void lowerString(char* string) {
 */
 int findStudent(const int id) {
     for (int i = 0; i < entries; i++) {
-        printf("%d",(*(int*) STUDENT_DATABASE[i][ID_INDEX] == id));
-        if (*(int*) STUDENT_DATABASE[i][ID_INDEX] == id) {
+        //printf("%d",(*(int*) STUDENT_DATABASE[ID_INDEX][i] == id));
+        if (((int*)STUDENT_DATABASE[ID_INDEX])[i] == id) {
             return i;
         }
     }
-    return 0;
+    return -1;
 }
 
 /**
@@ -126,19 +133,19 @@ int isString(const char* string) {
  * REQUIRED
  * Allow users to enter a student's name, ID, age, program, GPA, and group
  */
-void addStudent(int id, char name, int age, char program,
+void addStudent(int id, char* name, int age, char* program,
                 double gpa, char group) {
     if (entries >= MAX_SIZE) {
       printf("Error: Database full!\n");
     }
     size_t row = entries++;
 
-    STUDENT_DATABASE[row][ID_INDEX] = &id;
-    STUDENT_DATABASE[row][NAME_INDEX] = &name;
-    STUDENT_DATABASE[row][AGE_INDEX] = &age;
-    STUDENT_DATABASE[row][PROGRAM_INDEX] = &program;
-    STUDENT_DATABASE[row][GPA_INDEX] = &gpa;
-    STUDENT_DATABASE[row][GROUP_INDEX] = &group;
+    ((int*)STUDENT_DATABASE[ID_INDEX])[row] = id;
+    ((char**) STUDENT_DATABASE[NAME_INDEX])[row] = name;
+    ((int*) STUDENT_DATABASE[AGE_INDEX])[row] = age;
+    ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[row] = program;
+    ((double*) STUDENT_DATABASE[GPA_INDEX])[row] = gpa;
+    ((char*) STUDENT_DATABASE[GROUP_INDEX])[row] = group;
 }
 
 /**
@@ -153,7 +160,7 @@ void addStudent(int id, char name, int age, char program,
 * Group: char array
 */
 void addStudentPrompt() {
-    char id[100], name[100], age[10], program[40], gpa[10], group;
+    char id[100], name[256], age[10], program[40], gpa[10], group;
     printf("To add a new student, please enter the following:\n");
 
     printf("Student ID: ");
@@ -163,7 +170,7 @@ void addStudentPrompt() {
         return;
     }
     int idNum = atoi(id);
-    if (findStudent(idNum)) {
+    if (findStudent(idNum) != -1) {
         printf("ERROR: Student ID already exist\n");
         return;
     }
@@ -219,14 +226,20 @@ void addStudentPrompt() {
  * Show all stored student records, categorized by group.
  */
 void displayStudent() {
-    printf("  ID  | Name | Age | Program | GPA | Group\n");
-    for (int i = 0; i < MAX_SIZE; i++) {
-        printf("%p", &STUDENT_DATABASE[i][ID_INDEX]);
-        printf("%p", &STUDENT_DATABASE[i][NAME_INDEX]);
-        printf("%p", &STUDENT_DATABASE[i][AGE_INDEX]);
-        printf("%p", &STUDENT_DATABASE[i][GPA_INDEX]);
-        printf("%p", &STUDENT_DATABASE[i][PROGRAM_INDEX]);
-        printf("%p", &STUDENT_DATABASE[i][GROUP_INDEX]);
+    if (entries < 1) {
+        printf("No students to display\n");
+        return;
+    }
+
+    printf("ID  | Name | Age | Program | GPA | Group\n");
+    for (int i = 0; i < entries; i++) {
+        char* name =  ((char**) STUDENT_DATABASE[NAME_INDEX])[i];
+        printf("%d | ", ((int*) STUDENT_DATABASE[ID_INDEX])[i]);
+        printf("%s | ", ((char**) STUDENT_DATABASE[NAME_INDEX])[i]);
+        printf("%d | ", ((int*) STUDENT_DATABASE[AGE_INDEX])[i]);
+        printf("%s | ", ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[i]);
+        printf("%f | ", ((double*) STUDENT_DATABASE[GPA_INDEX])[i]);
+        printf("%c\n", ((char*) STUDENT_DATABASE[GROUP_INDEX])[i]);
     }
 }
 
