@@ -27,7 +27,7 @@ Expected Outcome:
 */
 #include <ctype.h>
 #include <stdio.h>
-#include <string.h>
+#include <string.h>ad
 #include <stdlib.h>
 
 // The maximum number of students the database can store
@@ -202,6 +202,7 @@ void addStudentPrompt() {
         return;
     }
     addStudent(idNum, name, ageNum, program, gpaValue, group);
+    printf("Student added with these values:\n ID: %d,\n Name: %s,\n Age: %d,\n Program: %s,\n GPA: %f,\n Group: %c\n\n", idNum, name, ageNum, program, gpaValue, group);
 }
 
 /**
@@ -314,16 +315,16 @@ void runCommand(const int commandNum) {
             addStudentPrompt();
             break;
         case DISPLAY:
-            printf("Display not yet implemented");
+            printf("Display not yet implemented\n");
             break;
         case SEARCH:
-            printf("Search not yet implemented");
+            printf("Search not yet implemented\n");
             break;
         case DELETE:
             deleteStudentPrompt();
             break;
         case LIST:
-            printf("List not yet implemented");
+            printf("List not yet implemented\n");
             break;
         default:
             break;
