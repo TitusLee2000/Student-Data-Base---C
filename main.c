@@ -399,7 +399,19 @@ void deleteStudentPrompt() {
  * REQUIRED
  * Display all students in a specified group
  */
-void listByGroup(char group) {}
+void listByGroup(char group) {
+    for (size_t i = 0; i < entries; i++) {
+        if (((char*)STUDENT_DATABASE[GROUP_INDEX])[i] == group) {
+            printf("%d | ", ((int*) STUDENT_DATABASE[ID_INDEX])[i]);
+            printf("%s | ", ((char**) STUDENT_DATABASE[NAME_INDEX])[i]);
+            printf("%d | ", ((int*) STUDENT_DATABASE[AGE_INDEX])[i]);
+            printf("%s | ", ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[i]);
+            printf("%f | ", ((double*) STUDENT_DATABASE[GPA_INDEX])[i]);
+            printf("%c\n", ((char*) STUDENT_DATABASE[GROUP_INDEX])[i]);
+        }
+    }
+
+}
 
 /**
  * Display prompt for listing groups and validates user input before calling listByGroup.
