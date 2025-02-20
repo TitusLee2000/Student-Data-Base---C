@@ -27,11 +27,17 @@ Expected Outcome:
 */
 #include <ctype.h>
 #include <stdio.h>
-#include <string.h>ad
+#include <string.h>
 #include <stdlib.h>
 
 // The maximum number of students the database can store
 #define MAX_SIZE 50
+
+// The number of attributes associated with each student
+#define NUM_ATTRIBUTES 6
+
+// Maximum size of a string attribute for this database
+#define STRING_MAX 256
 
 // The indexes of student attributes
 #define ID_INDEX 0
@@ -40,6 +46,9 @@ Expected Outcome:
 #define PROGRAM_INDEX 3
 #define GPA_INDEX 4
 #define GROUP_INDEX 5
+
+// The number of commands
+#define NUM_COMMANDS 6
 
 // Command codes
 #define ADD 0
