@@ -400,8 +400,11 @@ void deleteStudentPrompt() {
  * Display all students in a specified group
  */
 void listByGroup(char group) {
+    printf("Students in group %c:\n", group);
+    char foundAny = 0;
     for (size_t i = 0; i < entries; i++) {
         if (((char*)STUDENT_DATABASE[GROUP_INDEX])[i] == group) {
+            foundAny = 1;
             printf("%d | ", ((int*) STUDENT_DATABASE[ID_INDEX])[i]);
             printf("%s | ", ((char**) STUDENT_DATABASE[NAME_INDEX])[i]);
             printf("%d | ", ((int*) STUDENT_DATABASE[AGE_INDEX])[i]);
@@ -410,20 +413,27 @@ void listByGroup(char group) {
             printf("%c\n", ((char*) STUDENT_DATABASE[GROUP_INDEX])[i]);
         }
     }
-
+    if (!foundAny) {
+        printf("(No students in group %c)\n", group);
+    }
 }
 
 /**
  * Display prompt for listing groups and validates user input before calling listByGroup.
  */
 void listByGroupPrompt() {
-    char group[100];
+    if (entries < 1) {
+        printf("No students to list\n");
+        return;
+    }
+
+    char group[STRING_MAX];
     printf("Group [D]-Downtown campus [B]-Burnaby campus:");
-    scanf(" %c", &group);
-    if (tolower(group) != 'd' && tolower(group) != 'b') {
+    scanf("%s", group);
+    if (tolower(group[0]) != 'd' && tolower(group[0]) != 'b') {
         printf("ERROR: Group can only be [D]-Downtown or [B]-Burnaby\n");
     } else {
-        listByGroup(group);
+        listByGroup(group[0]);
     }
 }
 
@@ -442,7 +452,7 @@ void runCommand(const int commandNum) {
             deleteStudentPrompt();
             break;
         case LIST:
-            printf("List not yet implemented\n");
+            listByGroupPrompt();
             break;
         default:
             break;
