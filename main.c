@@ -278,7 +278,7 @@ void addStudentPrompt() {
     char groupChar = tolower(group[0]);
 
 
-    addStudent(idNum, name, ageNum, program, gpaValue, group);
+    addStudent(idNum, name, ageNum, program, gpaValue, groupChar);
     printf("Student added with these values:\n ID: %d,\n Name: %s,\n Age: %d,\n Program: %s,\n GPA: %f,\n Group: %c\n\n", idNum, name, ageNum, program, gpaValue, groupChar);
 }
 
@@ -358,12 +358,12 @@ void shiftDatabase(const size_t row) {
     }
 
     // Null out the last entry
-        ((int*)STUDENT_DATABASE[ID_INDEX])[entries] = NULL;
-        ((char**)STUDENT_DATABASE[NAME_INDEX])[entries] = NULL;
-        ((int*)STUDENT_DATABASE[AGE_INDEX])[entries] = NULL;
-        ((char**)STUDENT_DATABASE[PROGRAM_INDEX])[entries] = NULL;
-        ((double**)STUDENT_DATABASE[GPA_INDEX])[entries]  = NULL;
-        ((char**)STUDENT_DATABASE[GROUP_INDEX])[entries]  = NULL;
+    ((int*)STUDENT_DATABASE[ID_INDEX])[entries] = NULL;
+    ((char**)STUDENT_DATABASE[NAME_INDEX])[entries] = NULL;
+    ((int*)STUDENT_DATABASE[AGE_INDEX])[entries] = NULL;
+    ((char**)STUDENT_DATABASE[PROGRAM_INDEX])[entries] = NULL;
+    ((double**)STUDENT_DATABASE[GPA_INDEX])[entries]  = NULL;
+    ((char**)STUDENT_DATABASE[GROUP_INDEX])[entries]  = NULL;
 
     entries--;
 }
