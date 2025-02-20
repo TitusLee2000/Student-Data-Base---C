@@ -233,9 +233,9 @@ char validateGroup (char* group)
 * Group: char array
 */
 void addStudentPrompt() {
-    char id[100], name[256] = "", age[10], program[40] = "", gpa[10], group[256];
     printf("To add a new student, please enter the following:\n");
 
+    char id[256] = "";
     do {
         printf("Enter a valid Student ID: ");
         scanf("%s", id);
@@ -243,22 +243,26 @@ void addStudentPrompt() {
     while (!validateID(id));
     int idNum = atoi(id);
 
+    static char name[256] = "";
     do {
         printf("Enter student's name: ");
         scanf("%s", name);
     } while (!validateName(name));
 
+    char age[256] = "";
     do {
         printf("Enter student's age: ");
         scanf("%s", age);
     } while (!validateAge(age));
     int ageNum = atoi(age);
 
+    static char program[256] = "";
     do {
         printf("Enter student's program: ");
         scanf("%s", program);
     } while (!validateProgram(program));
 
+    char gpa[256] = "";
     do {
         printf("Enter student's GPA: ");
         scanf("%s", gpa);
@@ -266,6 +270,7 @@ void addStudentPrompt() {
     double gpaValue = strtod(gpa, NULL);
     gpaValue = (double)((int) gpaValue*100)/100;
 
+    char group[256] = "";
     do {
         printf("Group [D]-Downtown campus [B]-Burnaby campus:");
         scanf("%s", group);
