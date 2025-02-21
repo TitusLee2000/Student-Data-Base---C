@@ -314,12 +314,13 @@ void searchStudent(const int id) {
     }
 
     char* group = "";
-    switch (((char*)STUDENT_DATABASE[ID_INDEX])[row]) {
+    char groupChar = ((char*)STUDENT_DATABASE[GROUP_INDEX])[row];
+    switch (groupChar) {
         case 'd':
-            *group = "Downtown";
+            group = "Downtown";
             break;
         case 'b':
-            *group = "Burnaby";
+            group = "Burnaby";
             break;
     }
     printf("Student with ID %d is in group %s\n", id, group);
