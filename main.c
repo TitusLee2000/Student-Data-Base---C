@@ -344,25 +344,32 @@ void searchStudentPrompt() {
 }
 
 void shiftDatabase(const size_t row) {
-    free(((char**)STUDENT_DATABASE[NAME_INDEX])[row]);
-    free(((char**)STUDENT_DATABASE[PROGRAM_INDEX])[row]);
+    // free(((char**)STUDENT_DATABASE[NAME_INDEX])[row]);
+    // free(((char**)STUDENT_DATABASE[PROGRAM_INDEX])[row]);
 
-    for (size_t i = row + 1; i < entries; i++) {
-        ((int*)STUDENT_DATABASE[ID_INDEX])[i-1] = ((int*)STUDENT_DATABASE[ID_INDEX])[i];
-        ((char**)STUDENT_DATABASE[NAME_INDEX])[i-1] = ((char**)STUDENT_DATABASE[NAME_INDEX])[i];
-        ((int*)STUDENT_DATABASE[AGE_INDEX])[i-1] = ((int*)STUDENT_DATABASE[AGE_INDEX])[i];
-        ((char**)STUDENT_DATABASE[PROGRAM_INDEX])[i-1] = ((char**)STUDENT_DATABASE[PROGRAM_INDEX])[i];
-        ((double**)STUDENT_DATABASE[GPA_INDEX])[i-1] = ((double**)STUDENT_DATABASE[GPA_INDEX])[i];
-        ((char**)STUDENT_DATABASE[GROUP_INDEX])[i-1] = ((char**)STUDENT_DATABASE[GROUP_INDEX])[i];
+    for (size_t i = row; i < entries; i++) {
+        int id = ((int*)STUDENT_DATABASE[ID_INDEX])[i+1];
+        char* name = ((char**) STUDENT_DATABASE[NAME_INDEX])[i+1];
+        int age = ((int*) STUDENT_DATABASE[AGE_INDEX])[i+1];
+        char* program = ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[i+1];
+        double gpa = ((double*) STUDENT_DATABASE[GPA_INDEX])[i+1];
+        char group = ((char*) STUDENT_DATABASE[GROUP_INDEX])[i+1];
+
+        ((int*)STUDENT_DATABASE[ID_INDEX])[i] = id;
+        ((char**) STUDENT_DATABASE[NAME_INDEX])[i] = name;
+        ((int*) STUDENT_DATABASE[AGE_INDEX])[i] = age;
+        ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[i] = program;
+        ((double*) STUDENT_DATABASE[GPA_INDEX])[i] = gpa;
+        ((char*) STUDENT_DATABASE[GROUP_INDEX])[i] = group;
     }
 
     // Null out the last entry
-    ((int*)STUDENT_DATABASE[ID_INDEX])[entries] = NULL;
-    ((char**)STUDENT_DATABASE[NAME_INDEX])[entries] = NULL;
-    ((int*)STUDENT_DATABASE[AGE_INDEX])[entries] = NULL;
-    ((char**)STUDENT_DATABASE[PROGRAM_INDEX])[entries] = NULL;
-    ((double**)STUDENT_DATABASE[GPA_INDEX])[entries]  = NULL;
-    ((char**)STUDENT_DATABASE[GROUP_INDEX])[entries]  = NULL;
+    // ((int*)STUDENT_DATABASE[ID_INDEX])[entries] = NULL;
+    // ((char**)STUDENT_DATABASE[NAME_INDEX])[entries] = NULL;
+    // ((int*)STUDENT_DATABASE[AGE_INDEX])[entries] = NULL;
+    // ((char**)STUDENT_DATABASE[PROGRAM_INDEX])[entries] = NULL;
+    // ((double**)STUDENT_DATABASE[GPA_INDEX])[entries]  = NULL;
+    // ((char**)STUDENT_DATABASE[GROUP_INDEX])[entries]  = NULL;
 
     entries--;
 }
@@ -514,6 +521,8 @@ void promptCommand(char* shouldExit) {
 int main() {
 
   char shouldExit = 0;
+    addStudent(45454, "david", 435, "cst", 5,'d');
+    addStudent(2323, "tim", 435, "cst", 5,'d');
   while (!shouldExit) {
       promptCommand(&shouldExit);
   }
