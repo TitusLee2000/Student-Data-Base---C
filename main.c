@@ -277,7 +277,6 @@ void addStudentPrompt() {
     } while (!validateGroup(group));
     char groupChar = tolower(group[0]);
 
-
     addStudent(idNum, name, ageNum, program, gpaValue, groupChar);
     printf("Student added with these values:\n ID: %d,\n Name: %s,\n Age: %d,\n Program: %s,\n GPA: %f,\n Group: %c\n\n", idNum, name, ageNum, program, gpaValue, groupChar);
 }
@@ -380,7 +379,7 @@ void deleteStudentPrompt() {
  */
 void listByGroup(char group) {
     printf("Students in group %c:\n", group);
-    printf("ID  | Name | Age | Program | GPA | Group\n");
+    printf("ID  - Name - Age - Program - GPA - Group\n");
     char foundAny = 0;
     for (size_t i = 0; i < entries; i++) {
         if (((char*)STUDENT_DATABASE[GROUP_INDEX])[i] == group) {
@@ -475,6 +474,7 @@ char isValid(const char* command) {
 void promptCommand(char* shouldExit) {
       char command[256] = "";
       do {
+          printf("Add | Display | Search | Delete | List\n");
           printf("Please enter a valid command: ");
           scanf("%s", command);
           lowerString(command);
