@@ -347,7 +347,7 @@ void shiftDatabase(const size_t row) {
     // free(((char**)STUDENT_DATABASE[NAME_INDEX])[row]);
     // free(((char**)STUDENT_DATABASE[PROGRAM_INDEX])[row]);
 
-    for (size_t i = row; i < entries; i++) {
+    for (size_t i = row; i < entries-1; i++) {
         int id = ((int*)STUDENT_DATABASE[ID_INDEX])[i+1];
         char* name = ((char**) STUDENT_DATABASE[NAME_INDEX])[i+1];
         int age = ((int*) STUDENT_DATABASE[AGE_INDEX])[i+1];
