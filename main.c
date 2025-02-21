@@ -159,13 +159,16 @@ char validateID (char* id) {
         printf("Student with ID %d already exists!\n", idAsInt);
         return 0;
     }
-
     return 1;
 }
 
 char validateName(char* name) {
     if (name == NULL || name[0] == '\0' ) {
         printf("Name must not be empty!\n");
+        return 0;
+    }
+    if (!isString(name)) {
+        printf("Name can only contain characters!\n");
         return 0;
     }
     return 1;
@@ -178,7 +181,7 @@ char validateAge(char* age) {
     }
 
     int ageAsInt = atoi(age);
-    if (ageAsInt < 18) {
+    if (ageAsInt <= 18) {
         printf("Age must be greater than 18!\n");
         return 0;
     }
@@ -188,6 +191,10 @@ char validateAge(char* age) {
 char validateProgram(char* program) {
     if (program == NULL || program[0] == '\0' ) {
         printf("Program must not be empty!\n");
+        return 0;
+    }
+    if (!isString(program)) {
+        printf("Program can only contain characters!\n");
         return 0;
     }
     return 1;
@@ -214,10 +221,9 @@ char validateGroup (char* group)
         return 0;
     }
     if (tolower(group[0]) != 'd' && tolower(group[0]) != 'b') {
-        printf("Group must be [D]-Downtown or [B]-Burnaby\n");
+        printf("Group must be Downtown or Burnaby\n");
         return 0;
     }
-
     return 1;
 }
 
