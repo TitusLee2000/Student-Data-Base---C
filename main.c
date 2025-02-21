@@ -521,8 +521,6 @@ void promptCommand(char* shouldExit) {
 int main() {
 
   char shouldExit = 0;
-    addStudent(45454, "david", 435, "cst", 5,'d');
-    addStudent(2323, "tim", 435, "cst", 5,'d');
   while (!shouldExit) {
       promptCommand(&shouldExit);
   }
