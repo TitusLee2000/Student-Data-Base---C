@@ -293,16 +293,12 @@ void addStudentPrompt() {
 
 }
 
-int validateSearch(const int id) {
-    const int row = findStudent(id);
+int validateSearch(char* id) {
     if (!isInt(id)) {
         printf("ID must be an integer!\n");
         return 0;
     }
-    if (row == -1) {
-        printf("No student with ID %d\n", id);
-        return 0;
-    }
+
     return 1;
 }
 
@@ -312,6 +308,10 @@ int validateSearch(const int id) {
  */
 void searchStudent(const int id) {
     const int row = findStudent(id);
+    if (row == -1) {
+        printf("No student with ID %d\n", id);
+        return;
+    }
 
     char* group = "";
     switch (((char*)STUDENT_DATABASE[ID_INDEX])[row]) {
@@ -331,8 +331,9 @@ void searchStudent(const int id) {
 void searchStudentPrompt() {
     if (entries < 1) {
         printf("No students to search\n");
+        return;
     }
-    char id[100];
+    char id[STRING_MAX];
     do {
         printf("Search by ID:");
         scanf("%s", id);
