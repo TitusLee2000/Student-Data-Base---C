@@ -239,11 +239,12 @@ char validateGroup (char* group)
 * Group: char array
 */
 void addStudentPrompt() {
-    printf("To add a new student, please enter the following:\n");
+    printf("---------------------------------------------------\n");
+    printf("To add a new student, please enter the following...\n\n");
 
     char id[256] = "";
     do {
-        printf("Enter a valid Student ID: ");
+        printf("Enter a valid Student ID:");
         scanf("%s", id);
     }
     while (!validateID(id));
@@ -251,26 +252,26 @@ void addStudentPrompt() {
 
     char* name = malloc(sizeof(char) * STRING_MAX);
     do {
-        printf("Enter student's name: ");
+        printf("Enter student's name:");
         scanf("%s", name);
     } while (!validateName(name));
 
     char age[256] = "";
     do {
-        printf("Enter student's age: ");
+        printf("Enter student's age:");
         scanf("%s", age);
     } while (!validateAge(age));
     int ageNum = atoi(age);
 
     char* program = malloc(sizeof(char) * STRING_MAX);
     do {
-        printf("Enter student's program: ");
+        printf("Enter student's program:");
         scanf("%s", program);
     } while (!validateProgram(program));
 
     char gpa[256] = "";
     do {
-        printf("Enter student's GPA: ");
+        printf("Enter student's GPA:");
         scanf("%s", gpa);
     } while (!validateGPA(gpa));
     double gpaValue = strtod(gpa, NULL);
@@ -278,13 +279,31 @@ void addStudentPrompt() {
 
     char group[256] = "";
     do {
-        printf("Group [D]-Downtown campus [B]-Burnaby campus:");
+        printf("[D]-Downtown [B]-Burnaby\n");
+        printf("Enter student's group:");
         scanf("%s", group);
     } while (!validateGroup(group));
     char groupChar = tolower(group[0]);
 
     addStudent(idNum, name, ageNum, program, gpaValue, groupChar);
-    printf("Student added with these values:\n ID: %d,\n Name: %s,\n Age: %d,\n Program: %s,\n GPA: %f,\n Group: %c\n\n", idNum, name, ageNum, program, gpaValue, groupChar);
+    printf("~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~\n");
+    printf("Student added with these values:\n ID:      %d\n Name:    %s\n Age:     %d\n Program: %s"
+        "\n GPA:     %f\n Group:   %c\n", idNum, name, ageNum, program, gpaValue, groupChar);
+    printf("~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~\n\n");
+
+}
+
+int validateSearch(const int id) {
+    const int row = findStudent(id);
+    if (!isInt(id)) {
+        printf("ID must be an integer!\n");
+        return 0;
+    }
+    if (row == -1) {
+        printf("No student with ID %d\n", id);
+        return 0;
+    }
+    return 1;
 }
 
 /**
@@ -293,21 +312,17 @@ void addStudentPrompt() {
  */
 void searchStudent(const int id) {
     const int row = findStudent(id);
-    if (row == -1) {
-        printf("No student with ID %d", id);
-        return;
-    }
 
     char* group = "";
     switch (((char*)STUDENT_DATABASE[ID_INDEX])[row]) {
         case 'd':
-            group = "Downtown";
+            *group = "Downtown";
             break;
         case 'b':
-            group = "Burnaby";
+            *group = "Burnaby";
             break;
     }
-    printf("Student with ID %d is in group %s", id, group);
+    printf("Student with ID %d is in group %s\n", id, group);
 }
 
 /**
@@ -318,14 +333,12 @@ void searchStudentPrompt() {
         printf("No students to search\n");
     }
     char id[100];
-    printf("To find a student's group please enter their ID");
-    scanf("%s", id);
-    if (!isInt(id)) {
-        printf("ERROR: That is a invalid ID\n");
-    } else {
-        int idNum = atoi(id);
-        searchStudent(idNum);
-    }
+    do {
+        printf("Search by ID:");
+        scanf("%s", id);
+    } while (!validateSearch(id));
+    int idNum = atoi(id);
+    searchStudent(idNum);
 }
 
 void shiftDatabase(const size_t row) {
@@ -384,7 +397,8 @@ void deleteStudentPrompt() {
  * Display all students in a specified group
  */
 void listByGroup(char group) {
-    printf("Students in group %c:\n", group);
+    printf("GROUP %c TABLE\n",toupper(group));
+    printf("_________________________________________\n");
     printf("ID  - Name - Age - Program - GPA - Group\n");
     char foundAny = 0;
     for (size_t i = 0; i < entries; i++) {
@@ -398,6 +412,7 @@ void listByGroup(char group) {
             printf("%c\n", ((char*) STUDENT_DATABASE[GROUP_INDEX])[i]);
         }
     }
+    printf("_________________________________________\n\n");
     if (!foundAny) {
         printf("(No students in group %c)\n", group);
     }
@@ -480,8 +495,12 @@ char isValid(const char* command) {
 void promptCommand(char* shouldExit) {
       char command[256] = "";
       do {
-          printf("Add | Display | Search | Delete | List\n");
-          printf("Please enter a valid command: ");
+          printf("========================================\n");
+          printf(" Add | Display | Search | Delete | List\n");
+          printf("========================================\n");
+
+          printf("Please enter a valid command:\n");
+
           scanf("%s", command);
           lowerString(command);
       } while (!isValid(command));
