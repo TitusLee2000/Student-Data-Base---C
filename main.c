@@ -519,11 +519,10 @@ void promptCommand(char* shouldExit) {
 }
 
 int main() {
-
-  char shouldExit = 0;
-  while (!shouldExit) {
+    char shouldExit = 0;
+    while (!shouldExit) {
       promptCommand(&shouldExit);
-  }
+    }
     printf("Exiting...");
-  return 0;
+    return 0;
 }
