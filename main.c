@@ -66,9 +66,14 @@ char programs[MAX_SIZE][STRING_MAX];
 double GPAs[MAX_SIZE];
 char groups[MAX_SIZE];
 
-// The database
-void* STUDENT_DATABASE [NUM_ATTRIBUTES] = {IDs, names, ages, programs, GPAs, groups};
+// Return the database
+void** getDatabase()
+{
+    static void* STUDENT_DATABASE [NUM_ATTRIBUTES] = {IDs, names, ages, programs, GPAs, groups};
+    return STUDENT_DATABASE;
+}
 
+// Return the number of entries
 size_t* getEntries() {
     static size_t entries = 0;
     return &entries;
@@ -94,7 +99,7 @@ void lowerString(char* string) {
 int findStudent(const int id) {
     for (int i = 0; i < *getEntries(); i++) {
         //printf("%d",(*(int*) STUDENT_DATABASE[ID_INDEX][i] == id));
-        if (((int*)STUDENT_DATABASE[ID_INDEX])[i] == id) {
+        if (((int*)getDatabase()[ID_INDEX])[i] == id) {
             return i;
         }
     }
@@ -143,12 +148,12 @@ void addStudent(int id, char* name, int age, char* program,
     size_t row = *getEntries();
     *getEntries() += 1;
 
-    ((int*)STUDENT_DATABASE[ID_INDEX])[row] = id;
-    ((char**) STUDENT_DATABASE[NAME_INDEX])[row] = name;
-    ((int*) STUDENT_DATABASE[AGE_INDEX])[row] = age;
-    ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[row] = program;
-    ((double*) STUDENT_DATABASE[GPA_INDEX])[row] = gpa;
-    ((char*) STUDENT_DATABASE[GROUP_INDEX])[row] = group;
+    ((int*)getDatabase()[ID_INDEX])[row] = id;
+    ((char**) getDatabase()[NAME_INDEX])[row] = name;
+    ((int*) getDatabase()[AGE_INDEX])[row] = age;
+    ((char**) getDatabase()[PROGRAM_INDEX])[row] = program;
+    ((double*) getDatabase()[GPA_INDEX])[row] = gpa;
+    ((char*) getDatabase()[GROUP_INDEX])[row] = group;
 }
 
 char validateID (char* id) {
@@ -317,7 +322,7 @@ void searchStudent(const int id) {
     }
 
     char* group = "";
-    char groupChar = ((char*)STUDENT_DATABASE[GROUP_INDEX])[row];
+    char groupChar = ((char*)getDatabase()[GROUP_INDEX])[row];
     switch (groupChar) {
         case 'd':
             group = "Downtown";
@@ -351,19 +356,19 @@ void shiftDatabase(const size_t row) {
     // free(((char**)STUDENT_DATABASE[PROGRAM_INDEX])[row]);
 
     for (size_t i = row; i < *getEntries()-1; i++) {
-        int id = ((int*)STUDENT_DATABASE[ID_INDEX])[i+1];
-        char* name = ((char**) STUDENT_DATABASE[NAME_INDEX])[i+1];
-        int age = ((int*) STUDENT_DATABASE[AGE_INDEX])[i+1];
-        char* program = ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[i+1];
-        double gpa = ((double*) STUDENT_DATABASE[GPA_INDEX])[i+1];
-        char group = ((char*) STUDENT_DATABASE[GROUP_INDEX])[i+1];
+        int id = ((int*)getDatabase()[ID_INDEX])[i+1];
+        char* name = ((char**) getDatabase()[NAME_INDEX])[i+1];
+        int age = ((int*) getDatabase()[AGE_INDEX])[i+1];
+        char* program = ((char**) getDatabase()[PROGRAM_INDEX])[i+1];
+        double gpa = ((double*) getDatabase()[GPA_INDEX])[i+1];
+        char group = ((char*) getDatabase()[GROUP_INDEX])[i+1];
 
-        ((int*)STUDENT_DATABASE[ID_INDEX])[i] = id;
-        ((char**) STUDENT_DATABASE[NAME_INDEX])[i] = name;
-        ((int*) STUDENT_DATABASE[AGE_INDEX])[i] = age;
-        ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[i] = program;
-        ((double*) STUDENT_DATABASE[GPA_INDEX])[i] = gpa;
-        ((char*) STUDENT_DATABASE[GROUP_INDEX])[i] = group;
+        ((int*)getDatabase()[ID_INDEX])[i] = id;
+        ((char**) getDatabase()[NAME_INDEX])[i] = name;
+        ((int*) getDatabase()[AGE_INDEX])[i] = age;
+        ((char**) getDatabase()[PROGRAM_INDEX])[i] = program;
+        ((double*) getDatabase()[GPA_INDEX])[i] = gpa;
+        ((char*) getDatabase()[GROUP_INDEX])[i] = group;
     }
 
     // Null out the last entry
@@ -414,14 +419,14 @@ void listByGroup(char group) {
     printf("ID  - Name - Age - Program - GPA - Group\n");
     char foundAny = 0;
     for (size_t i = 0; i < *getEntries(); i++) {
-        if (((char*)STUDENT_DATABASE[GROUP_INDEX])[i] == group) {
+        if (((char*)getDatabase()[GROUP_INDEX])[i] == group) {
             foundAny = 1;
-            printf("%d | ", ((int*) STUDENT_DATABASE[ID_INDEX])[i]);
-            printf("%s | ", ((char**) STUDENT_DATABASE[NAME_INDEX])[i]);
-            printf("%d | ", ((int*) STUDENT_DATABASE[AGE_INDEX])[i]);
-            printf("%s | ", ((char**) STUDENT_DATABASE[PROGRAM_INDEX])[i]);
-            printf("%f | ", ((double*) STUDENT_DATABASE[GPA_INDEX])[i]);
-            printf("%c\n", ((char*) STUDENT_DATABASE[GROUP_INDEX])[i]);
+            printf("%d | ", ((int*) getDatabase()[ID_INDEX])[i]);
+            printf("%s | ", ((char**) getDatabase()[NAME_INDEX])[i]);
+            printf("%d | ", ((int*) getDatabase()[AGE_INDEX])[i]);
+            printf("%s | ", ((char**) getDatabase()[PROGRAM_INDEX])[i]);
+            printf("%f | ", ((double*) getDatabase()[GPA_INDEX])[i]);
+            printf("%c\n", ((char*) getDatabase()[GROUP_INDEX])[i]);
         }
     }
     printf("_________________________________________\n\n");
