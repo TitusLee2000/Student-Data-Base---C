@@ -58,12 +58,10 @@ Expected Outcome:
 #define LIST 4
 #define EXIT 5
 
-// Columns in the database
-
-
 // Return the database
 void** getDatabase()
 {
+    // Columns in the database
     static int IDs[MAX_SIZE];
     static char names[MAX_SIZE][STRING_MAX];
     static int ages[MAX_SIZE];
