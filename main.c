@@ -81,8 +81,11 @@ size_t* getEntries() {
     return &entries;
 }
 
-// An array containing all valid commands
-const static char* COMMANDS[6] = {"add", "display", "search", "delete", "list", "exit"};
+// Return an array containing all valid commands
+const char** getCommands() {
+    const static char* COMMANDS[6] = {"add", "display", "search", "delete", "list", "exit"};
+    return COMMANDS;
+}
 
 
 // Takes a null-terminated string and replaces all uppercase letters with lowercase
@@ -494,7 +497,7 @@ void runCommand(const int commandNum) {
 
 void parseCommand(const char* command) {
     for (int i = 0; i < NUM_COMMANDS; i++) {
-        if (strcmp(command, COMMANDS[i]) == 0) {
+        if (strcmp(command, getCommands()[i]) == 0) {
             runCommand(i);
             return;
         }
@@ -503,7 +506,7 @@ void parseCommand(const char* command) {
 
 char isValid(const char* command) {
     for (int i = 0; i < NUM_COMMANDS; i++) {
-        if (strcmp(command, COMMANDS[i]) == 0) {
+        if (strcmp(command, getCommands()[i]) == 0) {
             return 1;
         }
     }
