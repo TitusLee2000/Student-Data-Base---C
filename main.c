@@ -69,8 +69,10 @@ char groups[MAX_SIZE];
 // The database
 void* STUDENT_DATABASE [NUM_ATTRIBUTES] = {IDs, names, ages, programs, GPAs, groups};
 
-// The number of students currently stored in the database
-size_t entries = 0;
+size_t* getEntries() {
+    static size_t entries = 0;
+    return &entries;
+}
 
 // An array containing all valid commands
 const static char* COMMANDS[6] = {"add", "display", "search", "delete", "list", "exit"};
@@ -90,7 +92,7 @@ void lowerString(char* string) {
 * @return: int the row the student is in the 2D array, or -1 if the student was not found
 */
 int findStudent(const int id) {
-    for (int i = 0; i < entries; i++) {
+    for (int i = 0; i < *getEntries(); i++) {
         //printf("%d",(*(int*) STUDENT_DATABASE[ID_INDEX][i] == id));
         if (((int*)STUDENT_DATABASE[ID_INDEX])[i] == id) {
             return i;
@@ -135,10 +137,11 @@ int isString(const char* string) {
  */
 void addStudent(int id, char* name, int age, char* program,
                 double gpa, char group) {
-    if (entries >= MAX_SIZE) {
+    if (*getEntries() >= MAX_SIZE) {
       printf("Error: Database full!\n");
     }
-    size_t row = entries++;
+    size_t row = *getEntries();
+    *getEntries() += 1;
 
     ((int*)STUDENT_DATABASE[ID_INDEX])[row] = id;
     ((char**) STUDENT_DATABASE[NAME_INDEX])[row] = name;
@@ -330,7 +333,7 @@ void searchStudent(const int id) {
  * Display the prompt and validates the input before displaying the student's group.
  */
 void searchStudentPrompt() {
-    if (entries < 1) {
+    if (*getEntries() < 1) {
         printf("No students to search\n");
         return;
     }
@@ -347,7 +350,7 @@ void shiftDatabase(const size_t row) {
     // free(((char**)STUDENT_DATABASE[NAME_INDEX])[row]);
     // free(((char**)STUDENT_DATABASE[PROGRAM_INDEX])[row]);
 
-    for (size_t i = row; i < entries-1; i++) {
+    for (size_t i = row; i < *getEntries()-1; i++) {
         int id = ((int*)STUDENT_DATABASE[ID_INDEX])[i+1];
         char* name = ((char**) STUDENT_DATABASE[NAME_INDEX])[i+1];
         int age = ((int*) STUDENT_DATABASE[AGE_INDEX])[i+1];
@@ -371,7 +374,7 @@ void shiftDatabase(const size_t row) {
     // ((double**)STUDENT_DATABASE[GPA_INDEX])[entries]  = NULL;
     // ((char**)STUDENT_DATABASE[GROUP_INDEX])[entries]  = NULL;
 
-    entries--;
+    *getEntries() -= 1;
 }
 
 /**
@@ -410,7 +413,7 @@ void listByGroup(char group) {
     printf("_________________________________________\n");
     printf("ID  - Name - Age - Program - GPA - Group\n");
     char foundAny = 0;
-    for (size_t i = 0; i < entries; i++) {
+    for (size_t i = 0; i < *getEntries(); i++) {
         if (((char*)STUDENT_DATABASE[GROUP_INDEX])[i] == group) {
             foundAny = 1;
             printf("%d | ", ((int*) STUDENT_DATABASE[ID_INDEX])[i]);
@@ -431,7 +434,7 @@ void listByGroup(char group) {
  * Display prompt for listing groups and validates user input before calling listByGroup.
  */
 void listByGroupPrompt() {
-    if (entries < 1) {
+    if (*getEntries() < 1) {
         printf("No students to list\n");
         return;
     }
@@ -451,7 +454,7 @@ void listByGroupPrompt() {
  * Show all stored student records, categorized by group.
  */
 void displayStudent() {
-    if (entries < 1) {
+    if (*getEntries() < 1) {
         printf("No students to display\n");
         return;
     }
