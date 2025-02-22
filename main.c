@@ -403,6 +403,10 @@ void deleteStudent(const int id) {
  * Display the prompt for deleting and validates input before calling the delete function.
  */
 void deleteStudentPrompt() {
+    if (*getEntries() < 1) {
+        printf("No students to delete\n");
+        return;
+    }
     char id[100];
     printf("To delete a student, please enter their student ID:");
     scanf("%s", id);
