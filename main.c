@@ -59,16 +59,18 @@ Expected Outcome:
 #define EXIT 5
 
 // Columns in the database
-int IDs[MAX_SIZE];
-char names[MAX_SIZE][STRING_MAX];
-int ages[MAX_SIZE];
-char programs[MAX_SIZE][STRING_MAX];
-double GPAs[MAX_SIZE];
-char groups[MAX_SIZE];
+
 
 // Return the database
 void** getDatabase()
 {
+    static int IDs[MAX_SIZE];
+    static char names[MAX_SIZE][STRING_MAX];
+    static int ages[MAX_SIZE];
+    static char programs[MAX_SIZE][STRING_MAX];
+    static double GPAs[MAX_SIZE];
+    static char groups[MAX_SIZE];
+
     static void* STUDENT_DATABASE [NUM_ATTRIBUTES] = {IDs, names, ages, programs, GPAs, groups};
     return STUDENT_DATABASE;
 }
