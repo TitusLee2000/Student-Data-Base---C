@@ -396,6 +396,7 @@ void deleteStudent(const int id) {
         return;
     }
     shiftDatabase(row);
+    printf("Student with id %d deleted successfully\n", id);
 }
 
 /**
@@ -406,10 +407,13 @@ void deleteStudentPrompt() {
     printf("To delete a student, please enter their student ID:");
     scanf("%s", id);
     if (!isInt(id)) {
-        printf("That is a invalid ID");
+        printf("'%s' is not a valid ID\n", id);
+    } else
+    {
+        const int idNum = atoi(id);
+        deleteStudent(idNum);
     }
-    const int idNum = atoi(id);
-    deleteStudent(idNum);
+
 }
 
 /**
